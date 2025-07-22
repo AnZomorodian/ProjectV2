@@ -2,24 +2,30 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Github, MessageCircle, Send, Heart, Code, Calculator } from 'lucide-react';
 
-export default function Footer() {
+interface FooterProps {
+  onShowPrivacyPolicy?: () => void;
+  onShowTermsOfService?: () => void;
+  onShowDocumentation?: () => void;
+}
+
+export default function Footer({ onShowPrivacyPolicy, onShowTermsOfService, onShowDocumentation }: FooterProps) {
   const socialLinks = [
     {
       name: 'GitHub',
       icon: Github,
-      url: 'https://github.com',
+      url: 'https://github.com/AnZomorodian',
       color: 'hover:text-gray-900 hover:bg-gray-100'
     },
     {
       name: 'Discord',
       icon: MessageCircle,
-      url: 'https://discord.com',
+      url: 'https://discord.gg/NbTDTRhu',
       color: 'hover:text-indigo-600 hover:bg-indigo-50'
     },
     {
       name: 'Telegram',
       icon: Send,
-      url: 'https://telegram.org',
+      url: 'https://t.me/DeepInkTeam',
       color: 'hover:text-blue-600 hover:bg-blue-50'
     }
   ];
@@ -106,9 +112,24 @@ export default function Footer() {
               © 2025 Engineering Calculator Pro. All rights reserved.
             </div>
             <div className="flex items-center space-x-6 text-sm text-blue-300">
-              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-              <a href="#" className="hover:text-white transition-colors">Documentation</a>
+              <button 
+                onClick={onShowPrivacyPolicy}
+                className="hover:text-white transition-colors"
+              >
+                Privacy Policy
+              </button>
+              <button 
+                onClick={onShowTermsOfService}
+                className="hover:text-white transition-colors"
+              >
+                Terms of Service
+              </button>
+              <button 
+                onClick={onShowDocumentation}
+                className="hover:text-white transition-colors"
+              >
+                Documentation
+              </button>
             </div>
           </div>
         </div>

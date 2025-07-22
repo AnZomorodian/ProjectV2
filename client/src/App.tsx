@@ -16,6 +16,9 @@ import SettingsPage from './components/SettingsPage';
 import ShareResults from './components/ShareResults';
 import FormulaGuide from './components/FormulaGuide';
 import QuickReference from './components/QuickReference';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import TermsOfService from './components/TermsOfService';
+import Documentation from './components/Documentation';
 import { Formula, Calculation } from './types/formula';
 import { formulas, disciplines, categories, difficulties } from './data/formulas';
 import { Search, Zap, ArrowRightLeft, Code, BarChart3, BookOpen, Settings, Share2 } from 'lucide-react';
@@ -36,6 +39,9 @@ function App() {
   const [showShareModal, setShowShareModal] = useState(false);
   const [showFormulaGuide, setShowFormulaGuide] = useState(false);
   const [showQuickReference, setShowQuickReference] = useState(false);
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
+  const [showTermsOfService, setShowTermsOfService] = useState(false);
+  const [showDocumentation, setShowDocumentation] = useState(false);
   const [calculationToShare, setCalculationToShare] = useState<Calculation | null>(null);
 
   // Combine built-in and custom formulas
@@ -357,7 +363,11 @@ function App() {
         )}
       </main>
 
-      <Footer />
+      <Footer
+        onShowPrivacyPolicy={() => setShowPrivacyPolicy(true)}
+        onShowTermsOfService={() => setShowTermsOfService(true)}
+        onShowDocumentation={() => setShowDocumentation(true)}
+      />
 
       <Calculator
         formula={selectedFormula}
@@ -396,6 +406,30 @@ function App() {
 
       {showQuickReference && (
         <QuickReference onClose={() => setShowQuickReference(false)} />
+      )}
+
+      {showPrivacyPolicy && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+          <div className="w-full max-w-6xl max-h-[95vh] overflow-y-auto">
+            <PrivacyPolicy onBack={() => setShowPrivacyPolicy(false)} />
+          </div>
+        </div>
+      )}
+
+      {showTermsOfService && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+          <div className="w-full max-w-6xl max-h-[95vh] overflow-y-auto">
+            <TermsOfService onBack={() => setShowTermsOfService(false)} />
+          </div>
+        </div>
+      )}
+
+      {showDocumentation && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+          <div className="w-full max-w-6xl max-h-[95vh] overflow-y-auto">
+            <Documentation onBack={() => setShowDocumentation(false)} />
+          </div>
+        </div>
       )}
     </div>
   );

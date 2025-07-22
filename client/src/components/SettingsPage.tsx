@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Settings, Save, RotateCcw, Palette, Calculator, Database, Bell, Eye, Moon, Sun, FileText, Scale, Book, ArrowLeft } from 'lucide-react';
-import PrivacyPolicy from './PrivacyPolicy';
-import TermsOfService from './TermsOfService';
-import Documentation from './Documentation';
+import { Settings, Save, RotateCcw, Palette, Calculator, Database, Bell, Eye, Moon, Sun } from 'lucide-react';
 
 interface SettingsPageProps {
   onClose: () => void;
 }
 
 export default function SettingsPage({ onClose }: SettingsPageProps) {
-  const [currentView, setCurrentView] = useState<'settings' | 'privacy' | 'terms' | 'docs'>('settings');
   const [settings, setSettings] = useState({
     theme: 'light',
     precision: 6,
@@ -21,7 +17,9 @@ export default function SettingsPage({ onClose }: SettingsPageProps) {
     language: 'en',
     defaultView: 'formulas',
     gridCols: 3,
-    fontSize: 'medium'
+    fontSize: 'medium',
+    exportHistory: false,
+    scientificNotation: 'auto'
   });
 
   const handleSettingChange = (key: string, value: any) => {
@@ -44,22 +42,11 @@ export default function SettingsPage({ onClose }: SettingsPageProps) {
       language: 'en',
       defaultView: 'formulas',
       gridCols: 3,
-      fontSize: 'medium'
+      fontSize: 'medium',
+      exportHistory: false,
+      scientificNotation: 'auto'
     });
   };
-
-  // Handle different views
-  if (currentView === 'privacy') {
-    return <PrivacyPolicy onBack={() => setCurrentView('settings')} />;
-  }
-  
-  if (currentView === 'terms') {
-    return <TermsOfService onBack={() => setCurrentView('settings')} />;
-  }
-  
-  if (currentView === 'docs') {
-    return <Documentation onBack={() => setCurrentView('settings')} />;
-  }
 
   return (
     <motion.div
@@ -70,10 +57,10 @@ export default function SettingsPage({ onClose }: SettingsPageProps) {
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+        className="glass-effect rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-white/20"
       >
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 rounded-t-2xl">
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 rounded-t-3xl">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <Settings className="h-6 w-6" />
@@ -81,7 +68,7 @@ export default function SettingsPage({ onClose }: SettingsPageProps) {
             </div>
             <button
               onClick={onClose}
-              className="text-white/80 hover:text-white text-2xl font-bold"
+              className="text-white/80 hover:text-white text-2xl font-bold w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10"
             >
               ×
             </button>
@@ -133,15 +120,15 @@ export default function SettingsPage({ onClose }: SettingsPageProps) {
             </div>
           </div>
 
-          {/* Calculator Settings */}
+          {/* Calculation Settings */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold flex items-center space-x-2">
               <Calculator className="h-5 w-5 text-green-600" />
-              <span>Calculator</span>
+              <span>Calculations</span>
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Decimal Precision</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Precision</label>
                 <input
                   type="number"
                   min="2"
@@ -164,47 +151,90 @@ export default function SettingsPage({ onClose }: SettingsPageProps) {
                   <option value="mixed">Mixed</option>
                 </select>
               </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Scientific Notation</label>
+                <select
+                  value={settings.scientificNotation}
+                  onChange={(e) => handleSettingChange('scientificNotation', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="auto">Auto</option>
+                  <option value="always">Always</option>
+                  <option value="never">Never</option>
+                  <option value="large">Large numbers only</option>
+                </select>
+              </div>
             </div>
           </div>
 
-          {/* Data & Privacy */}
+          {/* Advanced Features */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold flex items-center space-x-2">
               <Database className="h-5 w-5 text-purple-600" />
-              <span>Data & Privacy</span>
+              <span>Advanced Features</span>
             </h3>
-            <div className="space-y-3">
-              {[
-                { key: 'autoSave', label: 'Auto-save calculations', icon: Database },
-                { key: 'notifications', label: 'Enable notifications', icon: Bell },
-                { key: 'animations', label: 'Enable animations', icon: Eye }
-              ].map(setting => (
-                <div key={setting.key} className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <setting.icon className="h-4 w-4 text-gray-500" />
-                    <span className="text-sm font-medium text-gray-700">{setting.label}</span>
-                  </div>
-                  <button
-                    onClick={() => handleSettingChange(setting.key, !settings[setting.key as keyof typeof settings])}
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                      settings[setting.key as keyof typeof settings] ? 'bg-blue-600' : 'bg-gray-200'
-                    }`}
-                  >
-                    <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                        settings[setting.key as keyof typeof settings] ? 'translate-x-6' : 'translate-x-1'
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-3">
+                <h4 className="font-medium text-gray-900">Data Management</h4>
+                {[
+                  { key: 'autoSave', label: 'Auto-save calculations', icon: Database },
+                  { key: 'exportHistory', label: 'Export calculation history', icon: Database }
+                ].map(setting => (
+                  <div key={setting.key} className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <setting.icon className="h-4 w-4 text-purple-600" />
+                      <span className="text-sm font-medium text-gray-700">{setting.label}</span>
+                    </div>
+                    <button
+                      onClick={() => handleSettingChange(setting.key, !settings[setting.key as keyof typeof settings])}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                        settings[setting.key as keyof typeof settings] ? 'bg-purple-600' : 'bg-gray-200'
                       }`}
-                    />
-                  </button>
-                </div>
-              ))}
+                    >
+                      <span
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                          settings[setting.key as keyof typeof settings] ? 'translate-x-6' : 'translate-x-1'
+                        }`}
+                      />
+                    </button>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="space-y-3">
+                <h4 className="font-medium text-gray-900">User Experience</h4>
+                {[
+                  { key: 'notifications', label: 'Enable notifications', icon: Bell },
+                  { key: 'animations', label: 'Enable animations', icon: Eye }
+                ].map(setting => (
+                  <div key={setting.key} className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <setting.icon className="h-4 w-4 text-orange-600" />
+                      <span className="text-sm font-medium text-gray-700">{setting.label}</span>
+                    </div>
+                    <button
+                      onClick={() => handleSettingChange(setting.key, !settings[setting.key as keyof typeof settings])}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                        settings[setting.key as keyof typeof settings] ? 'bg-orange-600' : 'bg-gray-200'
+                      }`}
+                    >
+                      <span
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                          settings[setting.key as keyof typeof settings] ? 'translate-x-6' : 'translate-x-1'
+                        }`}
+                      />
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
           {/* Interface Settings */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold flex items-center space-x-2">
-              <Eye className="h-5 w-5 text-orange-600" />
+              <Eye className="h-5 w-5 text-indigo-600" />
               <span>Interface</span>
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -234,48 +264,6 @@ export default function SettingsPage({ onClose }: SettingsPageProps) {
                   <option value="4">4 Columns</option>
                 </select>
               </div>
-            </div>
-          </div>
-
-          {/* Legal & Documentation */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold flex items-center space-x-2">
-              <FileText className="h-5 w-5 text-purple-600" />
-              <span>Documentation & Legal</span>
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <button
-                onClick={() => setCurrentView('docs')}
-                className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:border-purple-300 hover:bg-purple-50 transition-colors"
-              >
-                <Book className="h-5 w-5 text-purple-600" />
-                <div className="text-left">
-                  <div className="font-medium text-gray-900">Documentation</div>
-                  <div className="text-sm text-gray-600">Complete user guide</div>
-                </div>
-              </button>
-              
-              <button
-                onClick={() => setCurrentView('privacy')}
-                className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors"
-              >
-                <Eye className="h-5 w-5 text-blue-600" />
-                <div className="text-left">
-                  <div className="font-medium text-gray-900">Privacy Policy</div>
-                  <div className="text-sm text-gray-600">Data protection info</div>
-                </div>
-              </button>
-              
-              <button
-                onClick={() => setCurrentView('terms')}
-                className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:border-green-300 hover:bg-green-50 transition-colors"
-              >
-                <Scale className="h-5 w-5 text-green-600" />
-                <div className="text-left">
-                  <div className="font-medium text-gray-900">Terms of Service</div>
-                  <div className="text-sm text-gray-600">Usage terms</div>
-                </div>
-              </button>
             </div>
           </div>
 

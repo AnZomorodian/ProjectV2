@@ -809,6 +809,78 @@ export const formulas: Formula[] = [
         description: '2m wide strip footing at 1.5m depth in cohesive soil'
       }
     ]
+  },
+  {
+    id: 'mohr-circle-analysis',
+    name: 'Mohr Circle Principal Stress',
+    description: 'Calculate principal stresses using Mohr circle analysis',
+    formula: 'σ₁,₂ = (σₓ + σᵧ)/2 ± √[((σₓ - σᵧ)/2)² + τₓᵧ²]',
+    variables: [
+      { symbol: 'σₓ', name: 'Normal Stress X', unit: 'Pa', min: -1000000000, max: 1000000000 },
+      { symbol: 'σᵧ', name: 'Normal Stress Y', unit: 'Pa', min: -1000000000, max: 1000000000 },
+      { symbol: 'τₘᵧ', name: 'Shear Stress XY', unit: 'Pa', min: -1000000000, max: 1000000000 }
+    ],
+    category: 'Structural Analysis',
+    discipline: 'Mechanical',
+    units: 'Pa',
+    difficulty: 'Advanced',
+    tags: ['stress', 'mohr', 'principal', 'circle'],
+    examples: [
+      {
+        title: 'Biaxial Stress State',
+        inputs: { σₓ: 50000000, σᵧ: 30000000, τₘᵧ: 20000000 },
+        expectedResult: 60000000,
+        description: 'Principal stress for biaxial loading condition'
+      }
+    ]
+  },
+  {
+    id: 'voltage-divider-loaded',
+    name: 'Loaded Voltage Divider',
+    description: 'Voltage divider circuit with load resistance',
+    formula: 'Vout = Vin × (R2 || RL) / (R1 + (R2 || RL))',
+    variables: [
+      { symbol: 'Vin', name: 'Input Voltage', unit: 'V', min: 0.1, max: 1000 },
+      { symbol: 'R1', name: 'Resistor 1', unit: 'Ω', min: 1, max: 1000000 },
+      { symbol: 'R2', name: 'Resistor 2', unit: 'Ω', min: 1, max: 1000000 },
+      { symbol: 'RL', name: 'Load Resistance', unit: 'Ω', min: 1, max: 1000000 }
+    ],
+    category: 'Basic Laws',
+    discipline: 'Electrical',
+    units: 'V',
+    difficulty: 'Intermediate',
+    tags: ['voltage', 'divider', 'loaded', 'circuit'],
+    examples: [
+      {
+        title: 'Sensor Circuit with Load',
+        inputs: { Vin: 12, R1: 1000, R2: 2000, RL: 10000 },
+        expectedResult: 6.67,
+        description: '12V divider with 10kΩ load resistance'
+      }
+    ]
+  },
+  {
+    id: 'concrete-compressive-strength',
+    name: 'Concrete Compressive Strength',
+    description: 'Estimate concrete compressive strength from cylinder test',
+    formula: 'fc = P / A',
+    variables: [
+      { symbol: 'P', name: 'Applied Load', unit: 'N', min: 1000, max: 10000000 },
+      { symbol: 'A', name: 'Cross-sectional Area', unit: 'm²', min: 0.001, max: 1 }
+    ],
+    category: 'Materials Testing',
+    discipline: 'Civil',
+    units: 'Pa',
+    difficulty: 'Basic',
+    tags: ['concrete', 'compressive', 'strength', 'testing'],
+    examples: [
+      {
+        title: 'Standard 6-inch Cylinder Test',
+        inputs: { P: 890000, A: 0.0182 },
+        expectedResult: 48901099,
+        description: 'Standard concrete cylinder compressive strength test'
+      }
+    ]
   }
 ];
 
