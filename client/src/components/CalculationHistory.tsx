@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calculation } from '../types/formula';
-import { History, Trash2, Calendar, Download, Search, Filter, Eye, Copy } from 'lucide-react';
+import { History, Trash2, Calendar, Download, Search, Filter, Eye, Copy, Share2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 interface CalculationHistoryProps {
   calculations: Calculation[];
   onClearHistory: () => void;
+  onShareCalculation?: (calculation: Calculation) => void;
 }
 
-export default function CalculationHistory({ calculations, onClearHistory }: CalculationHistoryProps) {
+export default function CalculationHistory({ calculations, onClearHistory, onShareCalculation }: CalculationHistoryProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState<'date' | 'formula' | 'result'>('date');
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -164,12 +165,23 @@ export default function CalculationHistory({ calculations, onClearHistory }: Cal
                       <button
                         onClick={() => copyCalculation(calc)}
                         className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+                        title="Copy calculation"
                       >
                         <Copy className="h-4 w-4" />
                       </button>
+                      {onShareCalculation && (
+                        <button
+                          onClick={() => onShareCalculation(calc)}
+                          className="text-gray-400 hover:text-green-600 transition-colors p-1"
+                          title="Share calculation"
+                        >
+                          <Share2 className="h-4 w-4" />
+                        </button>
+                      )}
                       <button
                         onClick={() => setExpandedId(expandedId === calc.id ? null : calc.id)}
                         className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+                        title="View details"
                       >
                         <Eye className="h-4 w-4" />
                       </button>

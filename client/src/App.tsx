@@ -12,9 +12,13 @@ import UnitConverter from './components/UnitConverter';
 import FormulaBuilder from './components/FormulaBuilder';
 import Footer from './components/Footer';
 import HelpModal from './components/HelpModal';
+import SettingsPage from './components/SettingsPage';
+import ShareResults from './components/ShareResults';
+import FormulaGuide from './components/FormulaGuide';
+import QuickReference from './components/QuickReference';
 import { Formula, Calculation } from './types/formula';
 import { formulas, disciplines, categories, difficulties } from './data/formulas';
-import { Search, Zap, ArrowRightLeft, Code, BarChart3 } from 'lucide-react';
+import { Search, Zap, ArrowRightLeft, Code, BarChart3, BookOpen, Settings, Share2 } from 'lucide-react';
 
 function App() {
   const [selectedFormula, setSelectedFormula] = useState<Formula | null>(null);
@@ -25,9 +29,14 @@ function App() {
   const [calculations, setCalculations] = useState<Calculation[]>([]);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
-  const [currentView, setCurrentView] = useState<'formulas' | 'history' | 'stats' | 'converter' | 'builder'>('formulas');
+  const [currentView, setCurrentView] = useState<'formulas' | 'history' | 'stats' | 'converter' | 'builder' | 'guide' | 'quick'>('formulas');
   const [customFormulas, setCustomFormulas] = useState<Formula[]>([]);
   const [showHelpModal, setShowHelpModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [showFormulaGuide, setShowFormulaGuide] = useState(false);
+  const [showQuickReference, setShowQuickReference] = useState(false);
+  const [calculationToShare, setCalculationToShare] = useState<Calculation | null>(null);
 
   // Combine built-in and custom formulas
   const allFormulas = [...formulas, ...customFormulas];
@@ -83,6 +92,23 @@ function App() {
     setShowHelpModal(true);
   };
 
+  const handleShowSettings = () => {
+    setShowSettingsModal(true);
+  };
+
+  const handleShareCalculation = (calculation: Calculation) => {
+    setCalculationToShare(calculation);
+    setShowShareModal(true);
+  };
+
+  const handleShowFormulaGuide = () => {
+    setShowFormulaGuide(true);
+  };
+
+  const handleShowQuickReference = () => {
+    setShowQuickReference(true);
+  };
+
   const handleExportData = () => {
     const data = {
       calculations,
@@ -124,7 +150,9 @@ function App() {
               { id: 'history', label: 'History', icon: Zap },
               { id: 'stats', label: 'Analytics', icon: BarChart3 },
               { id: 'converter', label: 'Unit Converter', icon: ArrowRightLeft },
-              { id: 'builder', label: 'Formula Builder', icon: Code }
+              { id: 'builder', label: 'Formula Builder', icon: Code },
+              { id: 'guide', label: 'Guide', icon: BookOpen },
+              { id: 'quick', label: 'Quick Ref', icon: Settings }
             ].map(tab => (
               <button
                 key={tab.id}
@@ -146,7 +174,7 @@ function App() {
         <QuickActions
           onShowHelp={handleShowHelp}
           onExportData={handleExportData}
-          onShowSettings={() => {}}
+          onShowSettings={handleShowSettings}
         />
 
         {/* Content based on current view */}
@@ -243,6 +271,7 @@ function App() {
             <CalculationHistory
               calculations={calculations}
               onClearHistory={handleClearHistory}
+              onShareCalculation={handleShareCalculation}
             />
           </motion.div>
         )}
@@ -276,6 +305,46 @@ function App() {
             <FormulaBuilder onSaveFormula={handleSaveCustomFormula} />
           </motion.div>
         )}
+
+        {currentView === 'guide' && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center py-16"
+          >
+            <BookOpen className="h-24 w-24 text-blue-600 mx-auto mb-6" />
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Formula Guide</h2>
+            <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+              Explore our comprehensive collection of engineering formulas with detailed explanations, examples, and applications.
+            </p>
+            <button
+              onClick={handleShowFormulaGuide}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+            >
+              Open Formula Guide
+            </button>
+          </motion.div>
+        )}
+
+        {currentView === 'quick' && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center py-16"
+          >
+            <Settings className="h-24 w-24 text-purple-600 mx-auto mb-6" />
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Quick Reference</h2>
+            <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+              Access quick formulas, unit conversions, physical constants, and mathematical references all in one place.
+            </p>
+            <button
+              onClick={handleShowQuickReference}
+              className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+            >
+              Open Quick Reference
+            </button>
+          </motion.div>
+        )}
       </main>
 
       <Footer />
@@ -290,6 +359,34 @@ function App() {
         isOpen={showHelpModal}
         onClose={() => setShowHelpModal(false)}
       />
+
+      {showSettingsModal && (
+        <SettingsPage onClose={() => setShowSettingsModal(false)} />
+      )}
+
+      {showShareModal && calculationToShare && (
+        <ShareResults
+          calculation={calculationToShare}
+          onClose={() => {
+            setShowShareModal(false);
+            setCalculationToShare(null);
+          }}
+        />
+      )}
+
+      {showFormulaGuide && (
+        <FormulaGuide
+          onClose={() => setShowFormulaGuide(false)}
+          onSelectFormula={(formula) => {
+            setSelectedFormula(formula);
+            setShowFormulaGuide(false);
+          }}
+        />
+      )}
+
+      {showQuickReference && (
+        <QuickReference onClose={() => setShowQuickReference(false)} />
+      )}
     </div>
   );
 }

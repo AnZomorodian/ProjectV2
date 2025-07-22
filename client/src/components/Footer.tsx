@@ -93,6 +93,8 @@ export default function Footer() {
               <p>• Open source contributions welcome</p>
               <p>• Join our engineering community</p>
               <p>• Get support and share feedback</p>
+              <p>• Access advanced formula library</p>
+              <p>• Professional calculation tools</p>
             </div>
           </div>
         </div>

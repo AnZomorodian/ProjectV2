@@ -634,6 +634,181 @@ export const formulas: Formula[] = [
         description: '4m steel column with pinned ends'
       }
     ]
+  },
+  // New Advanced Formulas
+  {
+    id: 'reynolds-number',
+    name: 'Reynolds Number',
+    description: 'Dimensionless number characterizing fluid flow regime',
+    formula: 'Re = ρvD / μ',
+    variables: [
+      { symbol: 'ρ', name: 'Fluid Density', unit: 'kg/m³', min: 0.1 },
+      { symbol: 'v', name: 'Flow Velocity', unit: 'm/s', min: 0 },
+      { symbol: 'D', name: 'Characteristic Length', unit: 'm', min: 0.001 },
+      { symbol: 'μ', name: 'Dynamic Viscosity', unit: 'Pa·s', min: 0.000001 }
+    ],
+    category: 'Fluid Mechanics',
+    discipline: 'Mechanical',
+    units: 'dimensionless',
+    difficulty: 'Intermediate',
+    tags: ['reynolds', 'flow', 'turbulence', 'dimensionless'],
+    examples: [
+      {
+        title: 'Water Flow in Pipe',
+        inputs: { ρ: 1000, v: 2, D: 0.1, μ: 0.001 },
+        expectedResult: 200000,
+        description: 'Water flowing at 2 m/s in 10cm diameter pipe'
+      }
+    ]
+  },
+  {
+    id: 'navier-stokes-simplified',
+    name: 'Pressure Drop (Simplified)',
+    description: 'Simplified pressure drop for viscous flow',
+    formula: 'ΔP = 32μLv / D²',
+    variables: [
+      { symbol: 'μ', name: 'Dynamic Viscosity', unit: 'Pa·s', min: 0.000001 },
+      { symbol: 'L', name: 'Length', unit: 'm', min: 0.01 },
+      { symbol: 'v', name: 'Average Velocity', unit: 'm/s', min: 0 },
+      { symbol: 'D', name: 'Diameter', unit: 'm', min: 0.001 }
+    ],
+    category: 'Fluid Mechanics',
+    discipline: 'Chemical',
+    units: 'Pa',
+    difficulty: 'Advanced',
+    tags: ['pressure', 'viscous', 'flow', 'navier-stokes'],
+    examples: [
+      {
+        title: 'Oil Flow in Capillary',
+        inputs: { μ: 0.1, L: 1, v: 0.01, D: 0.001 },
+        expectedResult: 32000,
+        description: 'Viscous oil flowing through 1mm capillary'
+      }
+    ]
+  },
+  {
+    id: 'fourier-heat-conduction',
+    name: 'Fourier Heat Conduction',
+    description: 'One-dimensional steady-state heat conduction',
+    formula: 'q = kA(T1 - T2) / L',
+    variables: [
+      { symbol: 'k', name: 'Thermal Conductivity', unit: 'W/(m·K)', min: 0.01 },
+      { symbol: 'A', name: 'Cross-sectional Area', unit: 'm²', min: 0.0001 },
+      { symbol: 'T1', name: 'Hot Side Temperature', unit: 'K', min: 273 },
+      { symbol: 'T2', name: 'Cold Side Temperature', unit: 'K', min: 273 },
+      { symbol: 'L', name: 'Length', unit: 'm', min: 0.001 }
+    ],
+    category: 'Heat Transfer',
+    discipline: 'Mechanical',
+    units: 'W',
+    difficulty: 'Intermediate',
+    tags: ['heat', 'conduction', 'fourier', 'thermal'],
+    examples: [
+      {
+        title: 'Heat Through Wall',
+        inputs: { k: 0.8, A: 10, T1: 323, T2: 293, L: 0.2 },
+        expectedResult: 1200,
+        description: 'Heat transfer through 20cm thick concrete wall'
+      }
+    ]
+  },
+  {
+    id: 'maxwell-faraday',
+    name: 'Faraday\'s Law of Induction',
+    description: 'Electromagnetic induction in a coil',
+    formula: 'ε = -N × dΦ/dt',
+    variables: [
+      { symbol: 'N', name: 'Number of Turns', unit: 'turns', min: 1, max: 10000 },
+      { symbol: 'dΦ/dt', name: 'Rate of Flux Change', unit: 'Wb/s', description: 'Rate of change of magnetic flux' }
+    ],
+    category: 'Electromagnetic',
+    discipline: 'Electrical',
+    units: 'V',
+    difficulty: 'Advanced',
+    tags: ['faraday', 'induction', 'electromagnetic', 'voltage'],
+    examples: [
+      {
+        title: 'Generator Coil',
+        inputs: { N: 100, 'dΦ/dt': 0.01 },
+        expectedResult: -1,
+        description: '100-turn coil with changing magnetic flux'
+      }
+    ]
+  },
+  {
+    id: 'mohr-circle-stress',
+    name: 'Principal Stress (Mohr\'s Circle)',
+    description: 'Maximum principal stress using Mohr\'s circle',
+    formula: 'σ1 = (σx + σy)/2 + √[((σx - σy)/2)² + τxy²]',
+    variables: [
+      { symbol: 'σx', name: 'Normal Stress X', unit: 'Pa', description: 'Normal stress in x-direction' },
+      { symbol: 'σy', name: 'Normal Stress Y', unit: 'Pa', description: 'Normal stress in y-direction' },
+      { symbol: 'τxy', name: 'Shear Stress XY', unit: 'Pa', description: 'Shear stress in xy-plane' }
+    ],
+    category: 'Material Properties',
+    discipline: 'Mechanical',
+    units: 'Pa',
+    difficulty: 'Advanced',
+    tags: ['mohr', 'principal', 'stress', 'circle'],
+    examples: [
+      {
+        title: 'Biaxial Stress State',
+        inputs: { σx: 50000000, σy: 30000000, τxy: 20000000 },
+        expectedResult: 68284271,
+        description: 'Complex stress state with normal and shear components'
+      }
+    ]
+  },
+  {
+    id: 'shannon-capacity',
+    name: 'Shannon Channel Capacity',
+    description: 'Maximum data rate of a communication channel',
+    formula: 'C = B × log₂(1 + S/N)',
+    variables: [
+      { symbol: 'B', name: 'Bandwidth', unit: 'Hz', min: 1 },
+      { symbol: 'S/N', name: 'Signal-to-Noise Ratio', unit: 'ratio', min: 0.1, description: 'Linear SNR (not dB)' }
+    ],
+    category: 'Information Theory',
+    discipline: 'Electrical',
+    units: 'bits/s',
+    difficulty: 'Advanced',
+    tags: ['shannon', 'capacity', 'information', 'communication'],
+    examples: [
+      {
+        title: 'WiFi Channel',
+        inputs: { B: 20000000, 'S/N': 1000 },
+        expectedResult: 199316350,
+        description: '20 MHz WiFi channel with 30dB SNR (1000:1 ratio)'
+      }
+    ]
+  },
+  {
+    id: 'soil-bearing-capacity',
+    name: 'Ultimate Bearing Capacity',
+    description: 'Terzaghi bearing capacity for shallow foundations',
+    formula: 'qu = cNc + γDNq + 0.5γBNγ',
+    variables: [
+      { symbol: 'c', name: 'Soil Cohesion', unit: 'Pa', min: 0 },
+      { symbol: 'γ', name: 'Soil Unit Weight', unit: 'N/m³', min: 15000, max: 25000 },
+      { symbol: 'D', name: 'Foundation Depth', unit: 'm', min: 0.5 },
+      { symbol: 'B', name: 'Foundation Width', unit: 'm', min: 0.5 },
+      { symbol: 'Nc', name: 'Bearing Capacity Factor (c)', unit: 'dimensionless', min: 5, max: 50 },
+      { symbol: 'Nq', name: 'Bearing Capacity Factor (q)', unit: 'dimensionless', min: 1, max: 100 },
+      { symbol: 'Nγ', name: 'Bearing Capacity Factor (γ)', unit: 'dimensionless', min: 0, max: 200 }
+    ],
+    category: 'Geotechnical',
+    discipline: 'Civil',
+    units: 'Pa',
+    difficulty: 'Advanced',
+    tags: ['bearing', 'capacity', 'foundation', 'terzaghi'],
+    examples: [
+      {
+        title: 'Strip Footing Design',
+        inputs: { c: 10000, γ: 18000, D: 1.5, B: 2, Nc: 20, Nq: 10, Nγ: 8 },
+        expectedResult: 758000,
+        description: '2m wide strip footing at 1.5m depth in cohesive soil'
+      }
+    ]
   }
 ];
 
@@ -650,6 +825,8 @@ export const categories = [
   'Fluid Mechanics', 
   'Thermodynamics',
   'Heat Transfer',
-  'Structural Stability'
+  'Structural Stability',
+  'Electromagnetic',
+  'Information Theory'
 ];
 export const difficulties = ['All', 'Basic', 'Intermediate', 'Advanced'];
