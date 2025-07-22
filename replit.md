@@ -4,6 +4,19 @@
 
 This is a full-stack engineering calculator application built with a React frontend and Express.js backend. The application provides advanced formula calculations across multiple engineering disciplines (Mechanical, Electrical, Civil, Chemical) with features like calculation history, unit conversion, custom formula creation, and comprehensive statistics.
 
+## Recent Changes (January 22, 2025)
+
+- ✓ Enhanced UI with glass effects, gradient backgrounds, and custom scrollbars
+- ✓ Improved header design with professional badges and animations
+- ✓ Enhanced navigation tabs with individual color themes
+- ✓ Added comprehensive GitHub README with all project details
+- ✓ Created Privacy Policy page with detailed data protection information
+- ✓ Implemented Terms of Service with engineering-specific disclaimers
+- ✓ Built comprehensive Documentation system with searchable sections
+- ✓ Integrated documentation pages into Settings with easy navigation
+- ✓ Fixed duplicate formula IDs causing React key warnings
+- ✓ Added social media links (Telegram, Discord, GitHub) throughout
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.

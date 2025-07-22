@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Settings, Save, RotateCcw, Palette, Calculator, Database, Bell, Eye, Moon, Sun } from 'lucide-react';
+import { Settings, Save, RotateCcw, Palette, Calculator, Database, Bell, Eye, Moon, Sun, FileText, Scale, Book, ArrowLeft } from 'lucide-react';
+import PrivacyPolicy from './PrivacyPolicy';
+import TermsOfService from './TermsOfService';
+import Documentation from './Documentation';
 
 interface SettingsPageProps {
   onClose: () => void;
 }
 
 export default function SettingsPage({ onClose }: SettingsPageProps) {
+  const [currentView, setCurrentView] = useState<'settings' | 'privacy' | 'terms' | 'docs'>('settings');
   const [settings, setSettings] = useState({
     theme: 'light',
     precision: 6,
@@ -43,6 +47,19 @@ export default function SettingsPage({ onClose }: SettingsPageProps) {
       fontSize: 'medium'
     });
   };
+
+  // Handle different views
+  if (currentView === 'privacy') {
+    return <PrivacyPolicy onBack={() => setCurrentView('settings')} />;
+  }
+  
+  if (currentView === 'terms') {
+    return <TermsOfService onBack={() => setCurrentView('settings')} />;
+  }
+  
+  if (currentView === 'docs') {
+    return <Documentation onBack={() => setCurrentView('settings')} />;
+  }
 
   return (
     <motion.div
@@ -217,6 +234,48 @@ export default function SettingsPage({ onClose }: SettingsPageProps) {
                   <option value="4">4 Columns</option>
                 </select>
               </div>
+            </div>
+          </div>
+
+          {/* Legal & Documentation */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold flex items-center space-x-2">
+              <FileText className="h-5 w-5 text-purple-600" />
+              <span>Documentation & Legal</span>
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <button
+                onClick={() => setCurrentView('docs')}
+                className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:border-purple-300 hover:bg-purple-50 transition-colors"
+              >
+                <Book className="h-5 w-5 text-purple-600" />
+                <div className="text-left">
+                  <div className="font-medium text-gray-900">Documentation</div>
+                  <div className="text-sm text-gray-600">Complete user guide</div>
+                </div>
+              </button>
+              
+              <button
+                onClick={() => setCurrentView('privacy')}
+                className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors"
+              >
+                <Eye className="h-5 w-5 text-blue-600" />
+                <div className="text-left">
+                  <div className="font-medium text-gray-900">Privacy Policy</div>
+                  <div className="text-sm text-gray-600">Data protection info</div>
+                </div>
+              </button>
+              
+              <button
+                onClick={() => setCurrentView('terms')}
+                className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:border-green-300 hover:bg-green-50 transition-colors"
+              >
+                <Scale className="h-5 w-5 text-green-600" />
+                <div className="text-left">
+                  <div className="font-medium text-gray-900">Terms of Service</div>
+                  <div className="text-sm text-gray-600">Usage terms</div>
+                </div>
+              </button>
             </div>
           </div>
 
