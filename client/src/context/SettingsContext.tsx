@@ -143,29 +143,13 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
     // Apply color scheme
     const colorSchemeMap = {
-      'blue': { primary: '#3b82f6', secondary: '#1d4ed8' },
-      'purple': { primary: '#8b5cf6', secondary: '#7c3aed' },
-      'green': { primary: '#10b981', secondary: '#059669' },
-      'orange': { primary: '#f59e0b', secondary: '#d97706' },
-      'red': { primary: '#ef4444', secondary: '#dc2626' }
+      'blue': '#3b82f6',
+      'purple': '#8b5cf6', 
+      'green': '#10b981',
+      'orange': '#f59e0b',
+      'red': '#ef4444'
     };
-    const colors = colorSchemeMap[settings.colorScheme];
-    root.style.setProperty('--primary-color', colors.primary);
-    root.style.setProperty('--secondary-color', colors.secondary);
-
-    // Apply high contrast
-    if (settings.highContrast) {
-      root.classList.add('high-contrast');
-    } else {
-      root.classList.remove('high-contrast');
-    }
-
-    // Apply compact mode
-    if (settings.compactMode) {
-      root.classList.add('compact-mode');
-    } else {
-      root.classList.remove('compact-mode');
-    }
+    root.style.setProperty('--primary-color', colorSchemeMap[settings.colorScheme]);
 
     // Apply border radius
     const borderRadiusMap = {
@@ -183,22 +167,40 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     };
     root.style.setProperty('--spacing', spacingMap[settings.spacing]);
 
-    // Disable animations if requested
-    if (!settings.animations) {
-      root.classList.add('no-animations');
+    // Apply compact mode
+    if (settings.compactMode) {
+      document.body.classList.add('compact-mode');
     } else {
-      root.classList.remove('no-animations');
+      document.body.classList.remove('compact-mode');
     }
+
+    // Apply high contrast mode
+    if (settings.highContrast) {
+      document.body.classList.add('high-contrast');
+    } else {
+      document.body.classList.remove('high-contrast');
+    }
+
+    // Apply animations setting
+    if (!settings.animations) {
+      document.body.classList.add('no-animations');
+    } else {
+      document.body.classList.remove('no-animations');
+    }
+
+    // Apply font size class
+    document.body.className = document.body.className.replace(/font-size-\w+/g, '');
+    document.body.classList.add(`font-size-${settings.fontSize}`);
   };
 
   return (
-    <SettingsContext.Provider
-      value={{
-        settings,
-        updateSetting,
-        resetSettings,
-        loadSettings,
-        saveSettings
+    <SettingsContext.Provider 
+      value={{ 
+        settings, 
+        updateSetting, 
+        resetSettings, 
+        loadSettings, 
+        saveSettings 
       }}
     >
       {children}

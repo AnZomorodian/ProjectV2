@@ -1279,6 +1279,271 @@ export const formulas: Formula[] = [
         description: 'Communication system with 30 dB SNR'
       }
     ]
+  },
+
+  // NEW ADDITIONAL FORMULAS (10 more advanced formulas)
+
+  // 16. Piezoelectric Charge Constant
+  {
+    id: 'piezoelectric-charge-constant',
+    name: 'Piezoelectric Charge Constant',
+    description: 'Calculate piezoelectric charge constant for smart materials',
+    formula: 'd = Q / F',
+    variables: [
+      { symbol: 'Q', name: 'Generated Charge', unit: 'C', min: 1e-12, max: 1e-6 },
+      { symbol: 'F', name: 'Applied Force', unit: 'N', min: 0.1, max: 10000 }
+    ],
+    category: 'Smart Materials',
+    discipline: 'Electrical',
+    units: 'C/N',
+    difficulty: 'Advanced',
+    tags: ['piezoelectric', 'smart materials', 'sensors', 'actuators'],
+    examples: [
+      {
+        title: 'Piezoelectric Sensor',
+        inputs: { Q: 1e-9, F: 10 },
+        expectedResult: 1e-10,
+        description: 'Piezoelectric sensor under 10 N force'
+      }
+    ]
+  },
+
+  // 17. Bragg's Law for X-ray Crystallography
+  {
+    id: 'braggs-law-crystallography',
+    name: 'Bragg\'s Law',
+    description: 'Determine conditions for constructive interference in X-ray diffraction',
+    formula: 'n × λ = 2 × d × sin(θ)',
+    variables: [
+      { symbol: 'n', name: 'Order of Diffraction', unit: 'dimensionless', min: 1, max: 5 },
+      { symbol: 'λ', name: 'X-ray Wavelength', unit: 'm', min: 1e-12, max: 1e-9 },
+      { symbol: 'd', name: 'Interplanar Spacing', unit: 'm', min: 1e-11, max: 1e-9 },
+      { symbol: 'θ', name: 'Bragg Angle', unit: 'rad', min: 0.1, max: 1.5 }
+    ],
+    category: 'Materials Characterization',
+    discipline: 'Chemical',
+    units: 'dimensionless',
+    difficulty: 'Advanced',
+    tags: ['crystallography', 'diffraction', 'materials', 'analysis'],
+    examples: [
+      {
+        title: 'Crystal Structure Analysis',
+        inputs: { n: 1, λ: 1.54e-10, d: 2e-10, θ: 0.4 },
+        expectedResult: 1,
+        description: 'First-order diffraction from crystal planes'
+      }
+    ]
+  },
+
+  // 18. Archie's Law for Reservoir Engineering
+  {
+    id: 'archies-law-reservoir',
+    name: 'Archie\'s Law',
+    description: 'Relate rock porosity to electrical resistivity for oil/gas exploration',
+    formula: 'F = a / φ^m',
+    variables: [
+      { symbol: 'a', name: 'Tortuosity Factor', unit: 'dimensionless', min: 0.5, max: 2.0 },
+      { symbol: 'φ', name: 'Porosity', unit: 'dimensionless', min: 0.05, max: 0.4 },
+      { symbol: 'm', name: 'Cementation Exponent', unit: 'dimensionless', min: 1.3, max: 2.5 }
+    ],
+    category: 'Reservoir Engineering',
+    discipline: 'Civil',
+    units: 'dimensionless',
+    difficulty: 'Advanced',
+    tags: ['reservoir', 'porosity', 'resistivity', 'petroleum'],
+    examples: [
+      {
+        title: 'Sandstone Reservoir',
+        inputs: { a: 1, φ: 0.2, m: 2 },
+        expectedResult: 25,
+        description: 'Sandstone with 20% porosity'
+      }
+    ]
+  },
+
+  // 19. Fick's Second Law of Diffusion
+  {
+    id: 'ficks-second-law-diffusion',
+    name: 'Fick\'s Second Law of Diffusion',
+    description: 'Describe how concentration changes over time due to diffusion',
+    formula: '∂C/∂t = D × ∂²C/∂x²',
+    variables: [
+      { symbol: 'D', name: 'Diffusion Coefficient', unit: 'm²/s', min: 1e-12, max: 1e-6 },
+      { symbol: 'C', name: 'Concentration Gradient', unit: 'mol/m⁴', min: 1, max: 10000 },
+      { symbol: 't', name: 'Time Step', unit: 's', min: 0.1, max: 3600 }
+    ],
+    category: 'Mass Transfer',
+    discipline: 'Chemical',
+    units: 'mol/(m³·s)',
+    difficulty: 'Advanced',
+    tags: ['diffusion', 'mass transfer', 'concentration', 'transport'],
+    examples: [
+      {
+        title: 'Drug Diffusion',
+        inputs: { D: 1e-9, C: 1000, t: 3600 },
+        expectedResult: 2.78e-10,
+        description: 'Drug diffusion through biological membrane'
+      }
+    ]
+  },
+
+  // 20. Mohr-Coulomb Failure Criterion
+  {
+    id: 'mohr-coulomb-failure',
+    name: 'Mohr-Coulomb Failure Criterion',
+    description: 'Predict failure in soils and rocks under shear stress',
+    formula: 'τ = c + σ × tan(φ)',
+    variables: [
+      { symbol: 'c', name: 'Cohesion', unit: 'Pa', min: 0, max: 100000 },
+      { symbol: 'σ', name: 'Normal Stress', unit: 'Pa', min: 1000, max: 1000000 },
+      { symbol: 'φ', name: 'Friction Angle', unit: 'rad', min: 0.26, max: 0.87 }
+    ],
+    category: 'Geotechnical',
+    discipline: 'Civil',
+    units: 'Pa',
+    difficulty: 'Intermediate',
+    tags: ['geotechnical', 'failure', 'soil mechanics', 'stability'],
+    examples: [
+      {
+        title: 'Clay Soil Failure',
+        inputs: { c: 10000, σ: 50000, φ: 0.52 },
+        expectedResult: 38660,
+        description: 'Clay soil under foundation loading'
+      }
+    ]
+  },
+
+  // 21. Planck's Radiation Law
+  {
+    id: 'planck-radiation-law',
+    name: 'Planck\'s Radiation Law',
+    description: 'Calculate spectral radiance of electromagnetic radiation from black body',
+    formula: 'B = (2hc²/λ⁵) / (exp(hc/(λkT)) - 1)',
+    variables: [
+      { symbol: 'λ', name: 'Wavelength', unit: 'm', min: 100e-9, max: 3000e-9 },
+      { symbol: 'T', name: 'Temperature', unit: 'K', min: 300, max: 6000 },
+      { symbol: 'h', name: 'Planck Constant', unit: 'J·s', value: 6.626e-34 },
+      { symbol: 'c', name: 'Speed of Light', unit: 'm/s', value: 299792458 },
+      { symbol: 'k', name: 'Boltzmann Constant', unit: 'J/K', value: 1.381e-23 }
+    ],
+    category: 'Thermal Radiation',
+    discipline: 'Mechanical',
+    units: 'W/(m²·sr·m)',
+    difficulty: 'Advanced',
+    tags: ['radiation', 'thermal', 'quantum', 'spectral'],
+    examples: [
+      {
+        title: 'Solar Radiation',
+        inputs: { λ: 500e-9, T: 5778 },
+        expectedResult: 2.0e13,
+        description: 'Solar radiation at 500 nm wavelength'
+      }
+    ]
+  },
+
+  // 22. Hall Effect Coefficient
+  {
+    id: 'hall-effect-coefficient',
+    name: 'Hall Effect Coefficient',
+    description: 'Measure Hall coefficient for semiconductor characterization',
+    formula: 'RH = VH × t / (I × B)',
+    variables: [
+      { symbol: 'VH', name: 'Hall Voltage', unit: 'V', min: 0.001, max: 1 },
+      { symbol: 't', name: 'Sample Thickness', unit: 'm', min: 1e-6, max: 0.01 },
+      { symbol: 'I', name: 'Current', unit: 'A', min: 0.001, max: 10 },
+      { symbol: 'B', name: 'Magnetic Field', unit: 'T', min: 0.01, max: 2 }
+    ],
+    category: 'Semiconductor Physics',
+    discipline: 'Electrical',
+    units: 'm³/C',
+    difficulty: 'Advanced',
+    tags: ['semiconductors', 'hall effect', 'carriers', 'conductivity'],
+    examples: [
+      {
+        title: 'Silicon Hall Measurement',
+        inputs: { VH: 0.01, t: 1e-3, I: 0.1, B: 0.1 },
+        expectedResult: 1,
+        description: 'Hall measurement on silicon wafer'
+      }
+    ]
+  },
+
+  // 23. Rayleigh-Jeans Approximation
+  {
+    id: 'rayleigh-jeans-approximation',
+    name: 'Rayleigh-Jeans Approximation',
+    description: 'Classical approximation for black-body radiation at long wavelengths',
+    formula: 'B = (2ckT) / λ⁴',
+    variables: [
+      { symbol: 'c', name: 'Speed of Light', unit: 'm/s', value: 299792458 },
+      { symbol: 'k', name: 'Boltzmann Constant', unit: 'J/K', value: 1.381e-23 },
+      { symbol: 'T', name: 'Temperature', unit: 'K', min: 100, max: 1000 },
+      { symbol: 'λ', name: 'Wavelength', unit: 'm', min: 1e-5, max: 1e-3 }
+    ],
+    category: 'Classical Physics',
+    discipline: 'Mechanical',
+    units: 'W/(m²·sr·m)',
+    difficulty: 'Intermediate',
+    tags: ['classical', 'radiation', 'approximation', 'thermal'],
+    examples: [
+      {
+        title: 'Infrared Radiation',
+        inputs: { T: 300, λ: 10e-6 },
+        expectedResult: 3.4e8,
+        description: 'Room temperature infrared radiation'
+      }
+    ]
+  },
+
+  // 24. Wien's Displacement Law
+  {
+    id: 'wiens-displacement-law',
+    name: 'Wien\'s Displacement Law',
+    description: 'Find wavelength of peak emission for black-body radiation',
+    formula: 'λmax = b / T',
+    variables: [
+      { symbol: 'b', name: 'Wien Displacement Constant', unit: 'm·K', value: 2.898e-3 },
+      { symbol: 'T', name: 'Temperature', unit: 'K', min: 100, max: 10000 }
+    ],
+    category: 'Thermal Radiation',
+    discipline: 'Mechanical',
+    units: 'm',
+    difficulty: 'Basic',
+    tags: ['thermal', 'radiation', 'peak', 'wavelength'],
+    examples: [
+      {
+        title: 'Solar Peak Wavelength',
+        inputs: { T: 5778 },
+        expectedResult: 501e-9,
+        description: 'Peak wavelength of solar radiation (green light)'
+      }
+    ]
+  },
+
+  // 25. Stefan-Boltzmann Law
+  {
+    id: 'stefan-boltzmann-law',
+    name: 'Stefan-Boltzmann Law',
+    description: 'Calculate total power radiated by black body',
+    formula: 'P = σ × A × T⁴',
+    variables: [
+      { symbol: 'σ', name: 'Stefan-Boltzmann Constant', unit: 'W/(m²·K⁴)', value: 5.67e-8 },
+      { symbol: 'A', name: 'Surface Area', unit: 'm²', min: 0.001, max: 1000 },
+      { symbol: 'T', name: 'Temperature', unit: 'K', min: 100, max: 3000 }
+    ],
+    category: 'Thermal Radiation',
+    discipline: 'Mechanical',
+    units: 'W',
+    difficulty: 'Basic',
+    tags: ['thermal', 'radiation', 'power', 'emission'],
+    examples: [
+      {
+        title: 'Hot Metal Surface',
+        inputs: { A: 0.1, T: 1000 },
+        expectedResult: 5670,
+        description: 'Power radiated by 1000K metal surface'
+      }
+    ]
   }
 ];
 
@@ -1307,6 +1572,13 @@ export const categories = [
   'Energy Storage',
   'Thermal Properties',
   'Fluid Properties',
-  'Signal Processing'
+  'Signal Processing',
+  'Smart Materials',
+  'Materials Characterization',
+  'Reservoir Engineering',
+  'Mass Transfer',
+  'Thermal Radiation',
+  'Semiconductor Physics',
+  'Classical Physics'
 ];
 export const difficulties = ['All', 'Basic', 'Intermediate', 'Advanced'];
