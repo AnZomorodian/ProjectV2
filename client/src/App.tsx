@@ -134,7 +134,31 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen gradient-mesh">
+    <div className="min-h-screen gradient-mesh relative overflow-hidden">
+      {/* Enhanced Background Effects */}
+      <div className="absolute inset-0 animated-mesh opacity-20"></div>
+      
+      {/* Floating particles */}
+      {[...Array(6)].map((_, i) => (
+        <div
+          key={i}
+          className="floating-particle"
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            width: `${Math.random() * 4 + 2}px`,
+            height: `${Math.random() * 4 + 2}px`,
+            backgroundColor: 'var(--primary-color)',
+            animationDelay: `${Math.random() * 4}s`
+          }}
+        />
+      ))}
+      
+      {/* Glowing orbs */}
+      <div className="glow-orb glow-orb-1"></div>
+      <div className="glow-orb glow-orb-2"></div>
+      <div className="glow-orb glow-orb-3"></div>
+      
       <Toaster 
         position="top-right"
         toastOptions={{
@@ -142,17 +166,18 @@ function AppContent() {
           style: {
             background: '#363636',
             color: '#fff',
-            borderRadius: '12px',
+            borderRadius: 'var(--border-radius)',
             padding: '16px',
           },
         }}
       />
-      <Header />
+      <div className="relative z-10">
+        <Header />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Enhanced Navigation Tabs */}
         <div className="flex items-center justify-center mb-8">
-          <div className="glass-effect rounded-2xl p-2 shadow-xl border border-white/20 card-shadow overflow-x-auto">
+          <div className="glass-card rounded-2xl p-2 shadow-xl border border-white/20 card-shadow overflow-x-auto hover-lift">
             <div className="flex items-center space-x-1 min-w-fit">
               {[
                 { id: 'formulas', label: 'Formulas', icon: Search, color: 'from-blue-500 to-blue-600' },
@@ -166,9 +191,9 @@ function AppContent() {
                 <button
                   key={tab.id}
                   onClick={() => setCurrentView(tab.id as any)}
-                  className={`relative px-6 py-4 rounded-xl font-semibold transition-all duration-300 flex items-center space-x-2 group overflow-hidden ${
+                  className={`relative px-6 py-4 rounded-xl font-semibold transition-all duration-300 flex items-center space-x-2 group overflow-hidden ripple hover-lift ${
                     currentView === tab.id
-                      ? `bg-gradient-to-r ${tab.color} text-white shadow-lg transform scale-105`
+                      ? `bg-gradient-to-r ${tab.color} text-white shadow-lg transform scale-105 text-glow`
                       : 'text-gray-700 hover:text-gray-900 hover:bg-white/50 hover:shadow-md'
                   }`}
                 >
@@ -365,11 +390,12 @@ function AppContent() {
         )}
       </main>
 
-      <Footer
-        onShowPrivacyPolicy={() => setShowPrivacyPolicy(true)}
-        onShowTermsOfService={() => setShowTermsOfService(true)}
-        onShowDocumentation={() => setShowDocumentation(true)}
-      />
+        <Footer
+          onShowPrivacyPolicy={() => setShowPrivacyPolicy(true)}
+          onShowTermsOfService={() => setShowTermsOfService(true)}
+          onShowDocumentation={() => setShowDocumentation(true)}
+        />
+      </div>
 
       <Calculator
         formula={selectedFormula}

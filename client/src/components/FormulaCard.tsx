@@ -59,8 +59,8 @@ export default function FormulaCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: index * 0.05 }}
-      whileHover={{ y: -4, scale: 1.02 }}
-      className={`bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border ${
+      whileHover={{ y: -4, scale: 1.02, rotateY: 2 }}
+      className={`glass-card rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border hover-lift ripple ${
         isPopular ? 'border-orange-200 ring-2 ring-orange-100' : 'border-gray-100'
       } relative`}
     >
