@@ -138,7 +138,7 @@ export default function CalculationHistory({ calculations, onClearHistory, onSha
       
       {/* Calculations List */}
       <div className="p-6">
-        <div className="space-y-4 max-h-96 overflow-y-auto">
+        <div className="space-y-4 max-h-96 overflow-y-auto dark-scrollbar pr-2">
           <AnimatePresence>
             {filteredCalculations.map((calc, index) => (
               <motion.div
@@ -164,15 +164,15 @@ export default function CalculationHistory({ calculations, onClearHistory, onSha
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => copyCalculation(calc)}
-                        className="text-gray-400 hover:text-blue-600 transition-colors p-1"
-                        title="Copy calculation"
+                        className="text-gray-400 hover:text-blue-600 transition-colors p-2 rounded-lg hover:bg-blue-50"
+                        title="Copy to clipboard"
                       >
                         <Copy className="h-4 w-4" />
                       </button>
                       {onShareCalculation && (
                         <button
                           onClick={() => onShareCalculation(calc)}
-                          className="text-gray-400 hover:text-green-600 transition-colors p-1"
+                          className="text-gray-400 hover:text-green-600 transition-colors p-2 rounded-lg hover:bg-green-50"
                           title="Share calculation"
                         >
                           <Share2 className="h-4 w-4" />
@@ -180,7 +180,7 @@ export default function CalculationHistory({ calculations, onClearHistory, onSha
                       )}
                       <button
                         onClick={() => setExpandedId(expandedId === calc.id ? null : calc.id)}
-                        className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+                        className="text-gray-400 hover:text-purple-600 transition-colors p-2 rounded-lg hover:bg-purple-50"
                         title="View details"
                       >
                         <Eye className="h-4 w-4" />

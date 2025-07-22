@@ -637,7 +637,7 @@ export const formulas: Formula[] = [
   },
   // New Advanced Formulas
   {
-    id: 'reynolds-number',
+    id: 'reynolds-number-advanced',
     name: 'Reynolds Number',
     description: 'Dimensionless number characterizing fluid flow regime',
     formula: 'Re = ρvD / μ',
@@ -783,7 +783,7 @@ export const formulas: Formula[] = [
     ]
   },
   {
-    id: 'soil-bearing-capacity',
+    id: 'soil-bearing-capacity-terzaghi',
     name: 'Ultimate Bearing Capacity',
     description: 'Terzaghi bearing capacity for shallow foundations',
     formula: 'qu = cNc + γDNq + 0.5γBNγ',

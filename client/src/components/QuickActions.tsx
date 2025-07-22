@@ -58,35 +58,41 @@ export default function QuickActions({ onShowHelp, onExportData, onShowSettings 
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8"
+      className="glass-effect rounded-3xl shadow-2xl border border-white/20 p-8 mb-8 card-shadow"
     >
-      <div className="flex items-center space-x-3 mb-6">
-        <div className="bg-indigo-100 p-2 rounded-lg">
-          <Settings className="h-6 w-6 text-indigo-600" />
+      <div className="flex items-center space-x-4 mb-8">
+        <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-3 rounded-2xl shadow-lg">
+          <Settings className="h-8 w-8 text-white drop-shadow-sm" />
         </div>
         <div>
-          <h2 className="text-xl font-bold text-gray-900">Quick Actions</h2>
-          <p className="text-sm text-gray-600">Shortcuts to common tasks</p>
+          <h2 className="text-2xl font-bold text-gray-900 text-gradient">Quick Actions</h2>
+          <p className="text-base text-gray-600 font-medium">Shortcuts to common tasks</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
         {actions.map((action, index) => (
           <motion.button
             key={action.label}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: index * 0.1 }}
-            whileHover={{ scale: 1.05, y: -2 }}
+            whileHover={{ scale: 1.08, y: -4 }}
             whileTap={{ scale: 0.95 }}
             onClick={action.onClick}
-            className="group relative bg-white border-2 border-gray-200 hover:border-gray-300 rounded-xl p-4 transition-all duration-200 hover:shadow-md"
+            className="group relative glass-effect border-2 border-white/30 hover:border-white/50 rounded-2xl p-6 transition-all duration-300 hover:shadow-xl focus-ring"
           >
-            <div className={`bg-gradient-to-r ${action.color} p-3 rounded-lg mb-3 mx-auto w-fit group-hover:scale-110 transition-transform`}>
-              <action.icon className="h-6 w-6 text-white" />
+            {/* Hover background effect */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            
+            <div className={`bg-gradient-to-br ${action.color} p-4 rounded-2xl mb-4 mx-auto w-fit group-hover:scale-110 transition-all duration-300 shadow-lg group-hover:shadow-xl`}>
+              <action.icon className="h-7 w-7 text-white drop-shadow-sm" />
             </div>
-            <h3 className="font-semibold text-gray-900 text-sm mb-1">{action.label}</h3>
-            <p className="text-xs text-gray-500 leading-tight">{action.description}</p>
+            <h3 className="font-bold text-gray-900 text-sm mb-2 group-hover:text-gray-800 transition-colors">{action.label}</h3>
+            <p className="text-xs text-gray-600 leading-relaxed group-hover:text-gray-700 transition-colors">{action.description}</p>
+            
+            {/* Subtle border gradient on hover */}
+            <div className="absolute inset-0 rounded-2xl border-gradient opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </motion.button>
         ))}
       </div>

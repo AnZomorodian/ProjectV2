@@ -126,7 +126,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen gradient-mesh">
       <Toaster 
         position="top-right"
         toastOptions={{
@@ -142,31 +142,41 @@ function App() {
       <Header />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Navigation Tabs */}
+        {/* Enhanced Navigation Tabs */}
         <div className="flex items-center justify-center mb-8">
-          <div className="bg-white rounded-xl p-1 shadow-lg border border-gray-200">
-            {[
-              { id: 'formulas', label: 'Formulas', icon: Search },
-              { id: 'history', label: 'History', icon: Zap },
-              { id: 'stats', label: 'Analytics', icon: BarChart3 },
-              { id: 'converter', label: 'Unit Converter', icon: ArrowRightLeft },
-              { id: 'builder', label: 'Formula Builder', icon: Code },
-              { id: 'guide', label: 'Guide', icon: BookOpen },
-              { id: 'quick', label: 'Quick Ref', icon: Settings }
-            ].map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setCurrentView(tab.id as any)}
-                className={`px-6 py-3 rounded-lg font-medium transition-all flex items-center space-x-2 ${
-                  currentView === tab.id
-                    ? 'bg-blue-600 text-white shadow-md'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                }`}
-              >
-                <tab.icon className="h-4 w-4" />
-                <span>{tab.label}</span>
-              </button>
-            ))}
+          <div className="glass-effect rounded-2xl p-2 shadow-xl border border-white/20 card-shadow overflow-x-auto">
+            <div className="flex items-center space-x-1 min-w-fit">
+              {[
+                { id: 'formulas', label: 'Formulas', icon: Search, color: 'from-blue-500 to-blue-600' },
+                { id: 'history', label: 'History', icon: Zap, color: 'from-yellow-500 to-orange-500' },
+                { id: 'stats', label: 'Analytics', icon: BarChart3, color: 'from-green-500 to-emerald-500' },
+                { id: 'converter', label: 'Unit Converter', icon: ArrowRightLeft, color: 'from-purple-500 to-violet-500' },
+                { id: 'builder', label: 'Formula Builder', icon: Code, color: 'from-red-500 to-pink-500' },
+                { id: 'guide', label: 'Guide', icon: BookOpen, color: 'from-cyan-500 to-blue-500' },
+                { id: 'quick', label: 'Quick Ref', icon: Settings, color: 'from-indigo-500 to-purple-500' }
+              ].map(tab => (
+                <button
+                  key={tab.id}
+                  onClick={() => setCurrentView(tab.id as any)}
+                  className={`relative px-6 py-4 rounded-xl font-semibold transition-all duration-300 flex items-center space-x-2 group overflow-hidden ${
+                    currentView === tab.id
+                      ? `bg-gradient-to-r ${tab.color} text-white shadow-lg transform scale-105`
+                      : 'text-gray-700 hover:text-gray-900 hover:bg-white/50 hover:shadow-md'
+                  }`}
+                >
+                  {currentView === tab.id && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent rounded-xl"></div>
+                  )}
+                  <tab.icon className={`h-4 w-4 transition-transform group-hover:scale-110 ${
+                    currentView === tab.id ? 'drop-shadow-sm' : ''
+                  }`} />
+                  <span className="relative z-10 whitespace-nowrap">{tab.label}</span>
+                  {currentView === tab.id && (
+                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/30 rounded-full"></div>
+                  )}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
