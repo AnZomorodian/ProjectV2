@@ -881,6 +881,404 @@ export const formulas: Formula[] = [
         description: 'Standard concrete cylinder compressive strength test'
       }
     ]
+  },
+
+  // NEW ADVANCED FORMULAS (15 additional formulas)
+
+  // 1. Fatigue Life Prediction
+  {
+    id: 'fatigue-life-sn',
+    name: 'S-N Fatigue Life Prediction',
+    description: 'Predict fatigue life cycles using stress-life approach',
+    formula: 'N = (Sf / S)^b',
+    variables: [
+      { symbol: 'Sf', name: 'Fatigue Strength Coefficient', unit: 'Pa', min: 100000000, max: 2000000000 },
+      { symbol: 'S', name: 'Applied Stress Amplitude', unit: 'Pa', min: 1000000, max: 1000000000 },
+      { symbol: 'b', name: 'Fatigue Strength Exponent', unit: 'dimensionless', min: -0.2, max: -0.05 }
+    ],
+    category: 'Fatigue Analysis',
+    discipline: 'Mechanical',
+    units: 'cycles',
+    difficulty: 'Advanced',
+    tags: ['fatigue', 'life', 'cycles', 'failure'],
+    examples: [
+      {
+        title: 'Steel Component Fatigue',
+        inputs: { Sf: 1000000000, S: 200000000, b: -0.1 },
+        expectedResult: 31.62,
+        description: 'Steel part under cyclic loading with 200 MPa stress amplitude'
+      }
+    ]
+  },
+
+  // 2. Heat Exchanger Effectiveness
+  {
+    id: 'heat-exchanger-effectiveness',
+    name: 'Heat Exchanger Effectiveness',
+    description: 'Calculate thermal effectiveness of heat exchanger',
+    formula: 'ε = (Th_in - Th_out) / (Th_in - Tc_in)',
+    variables: [
+      { symbol: 'Th_in', name: 'Hot Fluid Inlet Temperature', unit: 'K', min: 300, max: 1000 },
+      { symbol: 'Th_out', name: 'Hot Fluid Outlet Temperature', unit: 'K', min: 250, max: 950 },
+      { symbol: 'Tc_in', name: 'Cold Fluid Inlet Temperature', unit: 'K', min: 200, max: 400 }
+    ],
+    category: 'Heat Transfer',
+    discipline: 'Mechanical',
+    units: 'dimensionless',
+    difficulty: 'Intermediate',
+    tags: ['heat', 'exchanger', 'effectiveness', 'thermal'],
+    examples: [
+      {
+        title: 'Shell-and-Tube Heat Exchanger',
+        inputs: { Th_in: 450, Th_out: 350, Tc_in: 300 },
+        expectedResult: 0.667,
+        description: 'Industrial heat exchanger with 67% effectiveness'
+      }
+    ]
+  },
+
+  // 3. Buckling Critical Load
+  {
+    id: 'euler-buckling-load',
+    name: 'Euler Buckling Critical Load',
+    description: 'Calculate critical load for column buckling',
+    formula: 'Pcr = (π²EI) / (KL)²',
+    variables: [
+      { symbol: 'E', name: 'Elastic Modulus', unit: 'Pa', min: 1000000000, max: 500000000000 },
+      { symbol: 'I', name: 'Moment of Inertia', unit: 'm⁴', min: 0.000000001, max: 0.01 },
+      { symbol: 'K', name: 'Effective Length Factor', unit: 'dimensionless', min: 0.5, max: 2.0 },
+      { symbol: 'L', name: 'Column Length', unit: 'm', min: 0.1, max: 50 }
+    ],
+    category: 'Structural Stability',
+    discipline: 'Civil',
+    units: 'N',
+    difficulty: 'Advanced',
+    tags: ['buckling', 'column', 'stability', 'critical'],
+    examples: [
+      {
+        title: 'Steel Column Buckling',
+        inputs: { E: 200000000000, I: 0.0001, K: 1.0, L: 5 },
+        expectedResult: 7895683.52,
+        description: '5m steel column with both ends pinned'
+      }
+    ]
+  },
+
+  // 4. Pump Efficiency
+  {
+    id: 'pump-efficiency',
+    name: 'Pump Hydraulic Efficiency',
+    description: 'Calculate efficiency of centrifugal pump',
+    formula: 'η = (ρgQH) / P',
+    variables: [
+      { symbol: 'ρ', name: 'Fluid Density', unit: 'kg/m³', min: 500, max: 2000 },
+      { symbol: 'g', name: 'Gravitational Acceleration', unit: 'm/s²', value: 9.81 },
+      { symbol: 'Q', name: 'Flow Rate', unit: 'm³/s', min: 0.001, max: 10 },
+      { symbol: 'H', name: 'Total Head', unit: 'm', min: 1, max: 200 },
+      { symbol: 'P', name: 'Power Input', unit: 'W', min: 100, max: 1000000 }
+    ],
+    category: 'Fluid Machinery',
+    discipline: 'Mechanical',
+    units: 'dimensionless',
+    difficulty: 'Intermediate',
+    tags: ['pump', 'efficiency', 'hydraulic', 'power'],
+    examples: [
+      {
+        title: 'Water Pump Performance',
+        inputs: { ρ: 1000, g: 9.81, Q: 0.1, H: 30, P: 35000 },
+        expectedResult: 0.84,
+        description: 'Water pump with 84% efficiency at rated conditions'
+      }
+    ]
+  },
+
+  // 5. Antenna Gain
+  {
+    id: 'antenna-gain',
+    name: 'Antenna Gain (dB)',
+    description: 'Calculate antenna gain in decibels',
+    formula: 'G = 10 × log10(4πA/λ²)',
+    variables: [
+      { symbol: 'A', name: 'Effective Aperture Area', unit: 'm²', min: 0.001, max: 1000 },
+      { symbol: 'λ', name: 'Wavelength', unit: 'm', min: 0.001, max: 1000 }
+    ],
+    category: 'Electromagnetic',
+    discipline: 'Electrical',
+    units: 'dB',
+    difficulty: 'Advanced',
+    tags: ['antenna', 'gain', 'electromagnetic', 'wireless'],
+    examples: [
+      {
+        title: 'Parabolic Dish Antenna',
+        inputs: { A: 28.27, λ: 0.1 },
+        expectedResult: 35.0,
+        description: '6m diameter dish antenna at 3 GHz (10cm wavelength)'
+      }
+    ]
+  },
+
+  // 6. Soil Consolidation Settlement
+  {
+    id: 'soil-consolidation',
+    name: 'Primary Consolidation Settlement',
+    description: 'Calculate settlement due to soil consolidation',
+    formula: 'S = (Cc × H × log10((σ0 + Δσ)/σ0)) / (1 + e0)',
+    variables: [
+      { symbol: 'Cc', name: 'Compression Index', unit: 'dimensionless', min: 0.1, max: 2.0 },
+      { symbol: 'H', name: 'Layer Thickness', unit: 'm', min: 0.5, max: 50 },
+      { symbol: 'σ0', name: 'Initial Effective Stress', unit: 'Pa', min: 10000, max: 1000000 },
+      { symbol: 'Δσ', name: 'Stress Increase', unit: 'Pa', min: 1000, max: 500000 },
+      { symbol: 'e0', name: 'Initial Void Ratio', unit: 'dimensionless', min: 0.3, max: 3.0 }
+    ],
+    category: 'Geotechnical',
+    discipline: 'Civil',
+    units: 'm',
+    difficulty: 'Advanced',
+    tags: ['consolidation', 'settlement', 'soil', 'foundation'],
+    examples: [
+      {
+        title: 'Building Foundation Settlement',
+        inputs: { Cc: 0.3, H: 10, σ0: 100000, Δσ: 50000, e0: 0.8 },
+        expectedResult: 0.293,
+        description: 'Settlement under building foundation load'
+      }
+    ]
+  },
+
+  // 7. Crystal Growth Rate
+  {
+    id: 'crystal-growth-rate',
+    name: 'Crystal Growth Rate',
+    description: 'Calculate crystal growth rate in crystallization process',
+    formula: 'G = kg × (C - Csat)^g',
+    variables: [
+      { symbol: 'kg', name: 'Growth Rate Constant', unit: 'm/s', min: 0.0000001, max: 0.001 },
+      { symbol: 'C', name: 'Solution Concentration', unit: 'kg/m³', min: 1, max: 1000 },
+      { symbol: 'Csat', name: 'Saturation Concentration', unit: 'kg/m³', min: 0.1, max: 800 },
+      { symbol: 'g', name: 'Growth Order', unit: 'dimensionless', min: 1, max: 3 }
+    ],
+    category: 'Crystallization',
+    discipline: 'Chemical',
+    units: 'm/s',
+    difficulty: 'Advanced',
+    tags: ['crystal', 'growth', 'crystallization', 'kinetics'],
+    examples: [
+      {
+        title: 'Sugar Crystal Growth',
+        inputs: { kg: 0.00001, C: 500, Csat: 300, g: 2 },
+        expectedResult: 0.0004,
+        description: 'Sugar crystallization in supersaturated solution'
+      }
+    ]
+  },
+
+  // 8. Wind Load Pressure
+  {
+    id: 'wind-load-pressure',
+    name: 'Wind Load Pressure',
+    description: 'Calculate wind pressure on structures',
+    formula: 'p = 0.5 × ρ × v² × Cp',
+    variables: [
+      { symbol: 'ρ', name: 'Air Density', unit: 'kg/m³', value: 1.225 },
+      { symbol: 'v', name: 'Wind Speed', unit: 'm/s', min: 5, max: 100 },
+      { symbol: 'Cp', name: 'Pressure Coefficient', unit: 'dimensionless', min: 0.3, max: 2.0 }
+    ],
+    category: 'Wind Engineering',
+    discipline: 'Civil',
+    units: 'Pa',
+    difficulty: 'Intermediate',
+    tags: ['wind', 'pressure', 'load', 'building'],
+    examples: [
+      {
+        title: 'Building Facade Wind Load',
+        inputs: { ρ: 1.225, v: 40, Cp: 0.8 },
+        expectedResult: 784,
+        description: 'Wind pressure on building facade at 40 m/s wind speed'
+      }
+    ]
+  },
+
+  // 9. Magnetic Field Strength
+  {
+    id: 'magnetic-field-solenoid',
+    name: 'Magnetic Field in Solenoid',
+    description: 'Calculate magnetic field inside solenoid',
+    formula: 'B = μ0 × n × I',
+    variables: [
+      { symbol: 'μ0', name: 'Permeability of Free Space', unit: 'H/m', value: 0.000001257 },
+      { symbol: 'n', name: 'Turn Density', unit: 'turns/m', min: 100, max: 100000 },
+      { symbol: 'I', name: 'Current', unit: 'A', min: 0.1, max: 1000 }
+    ],
+    category: 'Electromagnetic',
+    discipline: 'Electrical',
+    units: 'T',
+    difficulty: 'Intermediate',
+    tags: ['magnetic', 'field', 'solenoid', 'electromagnet'],
+    examples: [
+      {
+        title: 'Electromagnet Coil',
+        inputs: { μ0: 0.000001257, n: 10000, I: 5 },
+        expectedResult: 0.0628,
+        description: 'Solenoid with 10,000 turns/m carrying 5A current'
+      }
+    ]
+  },
+
+  // 10. Distillation Column Efficiency
+  {
+    id: 'distillation-efficiency',
+    name: 'Murphree Tray Efficiency',
+    description: 'Calculate efficiency of distillation tray',
+    formula: 'EMV = (yn - yn+1) / (yn* - yn+1)',
+    variables: [
+      { symbol: 'yn', name: 'Vapor Mole Fraction Leaving', unit: 'dimensionless', min: 0, max: 1 },
+      { symbol: 'yn+1', name: 'Vapor Mole Fraction Entering', unit: 'dimensionless', min: 0, max: 1 },
+      { symbol: 'yn*', name: 'Equilibrium Vapor Mole Fraction', unit: 'dimensionless', min: 0, max: 1 }
+    ],
+    category: 'Separation Processes',
+    discipline: 'Chemical',
+    units: 'dimensionless',
+    difficulty: 'Advanced',
+    tags: ['distillation', 'efficiency', 'tray', 'separation'],
+    examples: [
+      {
+        title: 'Ethanol-Water Distillation Tray',
+        inputs: { yn: 0.65, 'yn+1': 0.45, 'yn*': 0.75 },
+        expectedResult: 0.667,
+        description: 'Distillation tray with 67% Murphree efficiency'
+      }
+    ]
+  },
+
+  // 11. Seismic Response Spectrum
+  {
+    id: 'seismic-response',
+    name: 'Seismic Response Acceleration',
+    description: 'Calculate seismic design acceleration for structures',
+    formula: 'Sa = SDS × (1 + (T/T0) × (SMS/SDS - 1))',
+    variables: [
+      { symbol: 'SDS', name: 'Design Spectral Acceleration', unit: 'm/s²', min: 0.1, max: 20 },
+      { symbol: 'T', name: 'Structure Period', unit: 's', min: 0.1, max: 5 },
+      { symbol: 'T0', name: 'Transition Period', unit: 's', min: 0.05, max: 1 },
+      { symbol: 'SMS', name: 'Short Period Acceleration', unit: 'm/s²', min: 0.2, max: 30 }
+    ],
+    category: 'Seismic Design',
+    discipline: 'Civil',
+    units: 'm/s²',
+    difficulty: 'Advanced',
+    tags: ['seismic', 'earthquake', 'response', 'design'],
+    examples: [
+      {
+        title: 'High-Rise Building Seismic Design',
+        inputs: { SDS: 1.0, T: 2.0, T0: 0.2, SMS: 1.5 },
+        expectedResult: 6.0,
+        description: 'Seismic acceleration for 2-second period building'
+      }
+    ]
+  },
+
+  // 12. Battery Energy Density
+  {
+    id: 'battery-energy-density',
+    name: 'Battery Energy Density',
+    description: 'Calculate gravimetric energy density of battery',
+    formula: 'ED = (V × C × 3600) / m',
+    variables: [
+      { symbol: 'V', name: 'Nominal Voltage', unit: 'V', min: 1, max: 1000 },
+      { symbol: 'C', name: 'Capacity', unit: 'Ah', min: 0.1, max: 1000 },
+      { symbol: 'm', name: 'Mass', unit: 'kg', min: 0.01, max: 1000 }
+    ],
+    category: 'Energy Storage',
+    discipline: 'Electrical',
+    units: 'J/kg',
+    difficulty: 'Intermediate',
+    tags: ['battery', 'energy', 'density', 'storage'],
+    examples: [
+      {
+        title: 'Li-ion Battery Cell',
+        inputs: { V: 3.7, C: 3.5, m: 0.065 },
+        expectedResult: 708000,
+        description: 'Lithium-ion cell with 708 kJ/kg energy density'
+      }
+    ]
+  },
+
+  // 13. Thermal Expansion
+  {
+    id: 'linear-thermal-expansion',
+    name: 'Linear Thermal Expansion',
+    description: 'Calculate thermal expansion of materials',
+    formula: 'ΔL = α × L0 × ΔT',
+    variables: [
+      { symbol: 'α', name: 'Coefficient of Thermal Expansion', unit: '1/K', min: 0.000001, max: 0.0001 },
+      { symbol: 'L0', name: 'Initial Length', unit: 'm', min: 0.001, max: 1000 },
+      { symbol: 'ΔT', name: 'Temperature Change', unit: 'K', min: -200, max: 1000 }
+    ],
+    category: 'Thermal Properties',
+    discipline: 'Mechanical',
+    units: 'm',
+    difficulty: 'Basic',
+    tags: ['thermal', 'expansion', 'temperature', 'deformation'],
+    examples: [
+      {
+        title: 'Steel Bridge Expansion',
+        inputs: { α: 0.000012, L0: 100, ΔT: 40 },
+        expectedResult: 0.048,
+        description: '100m steel bridge expanding 4.8cm with 40K temperature rise'
+      }
+    ]
+  },
+
+  // 14. Fluid Viscosity (Sutherland)',
+  {
+    id: 'sutherland-viscosity',
+    name: 'Sutherland Viscosity Formula',
+    description: 'Calculate dynamic viscosity of gases with temperature',
+    formula: 'μ = μ0 × (T/T0)^(3/2) × (T0 + S)/(T + S)',
+    variables: [
+      { symbol: 'μ0', name: 'Reference Viscosity', unit: 'Pa·s', min: 0.000001, max: 0.001 },
+      { symbol: 'T', name: 'Temperature', unit: 'K', min: 200, max: 2000 },
+      { symbol: 'T0', name: 'Reference Temperature', unit: 'K', value: 273.15 },
+      { symbol: 'S', name: 'Sutherland Constant', unit: 'K', min: 50, max: 500 }
+    ],
+    category: 'Fluid Properties',
+    discipline: 'Chemical',
+    units: 'Pa·s',
+    difficulty: 'Advanced',
+    tags: ['viscosity', 'temperature', 'gas', 'sutherland'],
+    examples: [
+      {
+        title: 'Air Viscosity at High Temperature',
+        inputs: { μ0: 0.00001716, T: 500, T0: 273.15, S: 110.4 },
+        expectedResult: 0.0000266,
+        description: 'Air dynamic viscosity at 500K using Sutherland equation'
+      }
+    ]
+  },
+
+  // 15. Signal-to-Noise Ratio
+  {
+    id: 'signal-noise-ratio',
+    name: 'Signal-to-Noise Ratio (dB)',
+    description: 'Calculate SNR in decibels for communication systems',
+    formula: 'SNR = 10 × log10(Psignal / Pnoise)',
+    variables: [
+      { symbol: 'Psignal', name: 'Signal Power', unit: 'W', min: 0.000001, max: 1000 },
+      { symbol: 'Pnoise', name: 'Noise Power', unit: 'W', min: 0.000000001, max: 1 }
+    ],
+    category: 'Signal Processing',
+    discipline: 'Electrical',
+    units: 'dB',
+    difficulty: 'Intermediate',
+    tags: ['signal', 'noise', 'ratio', 'communication'],
+    examples: [
+      {
+        title: 'Digital Communication Link',
+        inputs: { Psignal: 0.001, Pnoise: 0.000001 },
+        expectedResult: 30,
+        description: 'Communication system with 30 dB SNR'
+      }
+    ]
   }
 ];
 
@@ -899,6 +1297,16 @@ export const categories = [
   'Heat Transfer',
   'Structural Stability',
   'Electromagnetic',
-  'Information Theory'
+  'Information Theory',
+  'Fatigue Analysis',
+  'Fluid Machinery',
+  'Crystallization',
+  'Wind Engineering',
+  'Separation Processes',
+  'Seismic Design',
+  'Energy Storage',
+  'Thermal Properties',
+  'Fluid Properties',
+  'Signal Processing'
 ];
 export const difficulties = ['All', 'Basic', 'Intermediate', 'Advanced'];

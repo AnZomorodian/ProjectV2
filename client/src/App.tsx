@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Toaster } from 'react-hot-toast';
+import { SettingsProvider } from './context/SettingsContext';
 import Header from './components/Header';
 import FormulaCard from './components/FormulaCard';
 import Calculator from './components/Calculator';
@@ -23,7 +24,7 @@ import { Formula, Calculation } from './types/formula';
 import { formulas, disciplines, categories, difficulties } from './data/formulas';
 import { Search, Zap, ArrowRightLeft, Code, BarChart3, BookOpen, Settings, Share2 } from 'lucide-react';
 
-function App() {
+function AppContent() {
   const [selectedFormula, setSelectedFormula] = useState<Formula | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDiscipline, setSelectedDiscipline] = useState('All');
@@ -432,6 +433,14 @@ function App() {
         </div>
       )}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <SettingsProvider>
+      <AppContent />
+    </SettingsProvider>
   );
 }
 
