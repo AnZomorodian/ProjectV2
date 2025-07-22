@@ -1,8 +1,8 @@
-# Engineering Calculator Pro
+# Solvix
 
 ## Overview
 
-This is a full-stack engineering calculator application built with a React frontend and Express.js backend. The application provides advanced formula calculations across multiple engineering disciplines (Mechanical, Electrical, Civil, Chemical) with features like calculation history, unit conversion, custom formula creation, and comprehensive statistics.
+Solvix is a full-stack advanced engineering solutions platform built with a React frontend and Express.js backend. The application provides professional formula calculations across multiple engineering disciplines (Mechanical, Electrical, Civil, Chemical) with features like calculation history, unit conversion, custom formula creation, and comprehensive statistics.
 
 ## Recent Changes (January 22, 2025)
 
@@ -16,6 +16,9 @@ This is a full-stack engineering calculator application built with a React front
 - ✓ Integrated documentation pages into Settings with easy navigation
 - ✓ Fixed duplicate formula IDs causing React key warnings
 - ✓ Added social media links (Telegram, Discord, GitHub) throughout
+- ✓ **Rebranded application to "Solvix"** - Updated all references across components and documentation
+- ✓ **Enhanced logo design** - Created modern gradient logo with hover animations and glow effects
+- ✓ **Implemented smart page navigation** - Clicking main tabs or logo closes all modals and returns to main view
 
 ### Latest Major Updates (January 22, 2025 - Evening)
 

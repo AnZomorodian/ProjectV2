@@ -172,7 +172,19 @@ function AppContent() {
         }}
       />
       <div className="relative z-10">
-        <Header />
+        <Header onLogoClick={() => {
+          // Close all modals when logo is clicked
+          setShowHelpModal(false);
+          setShowSettingsModal(false);
+          setShowShareModal(false);
+          setShowFormulaGuide(false);
+          setShowQuickReference(false);
+          setShowPrivacyPolicy(false);
+          setShowTermsOfService(false);
+          setShowDocumentation(false);
+          // Return to formulas view
+          setCurrentView('formulas');
+        }} />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Enhanced Navigation Tabs */}
@@ -190,7 +202,18 @@ function AppContent() {
               ].map(tab => (
                 <button
                   key={tab.id}
-                  onClick={() => setCurrentView(tab.id as any)}
+                  onClick={() => {
+                    setCurrentView(tab.id as any);
+                    // Close all modals when switching tabs
+                    setShowHelpModal(false);
+                    setShowSettingsModal(false);
+                    setShowShareModal(false);
+                    setShowFormulaGuide(false);
+                    setShowQuickReference(false);
+                    setShowPrivacyPolicy(false);
+                    setShowTermsOfService(false);
+                    setShowDocumentation(false);
+                  }}
                   className={`relative px-6 py-4 rounded-xl font-semibold transition-all duration-300 flex items-center space-x-2 group overflow-hidden ripple hover-lift ${
                     currentView === tab.id
                       ? `bg-gradient-to-r ${tab.color} text-white shadow-lg transform scale-105 text-glow`

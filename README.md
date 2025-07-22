@@ -1,4 +1,4 @@
-# 🧮 Engineering Calculator Pro
+# 🧮 Solvix
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -6,9 +6,9 @@
 [![Express.js](https://img.shields.io/badge/Express.js-404D59?logo=express)](https://expressjs.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 
-**Professional-grade engineering calculator with advanced formula analysis, calculation history, and multi-discipline support.**
+**Advanced engineering solutions platform with professional formulas, real-time calculations, and multi-discipline support.**
 
-![Engineering Calculator Pro](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
+![Solvix](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
 
 ## ✨ Features
 
