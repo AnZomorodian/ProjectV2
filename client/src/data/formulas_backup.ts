@@ -1544,11 +1544,10 @@ export const formulas: Formula[] = [
         description: 'Power radiated by 1000K metal surface'
       }
     ]
-  }
-];
-
-// Add 30 new engineering formulas
-export const newFormulas = [
+  },
+  
+  // 30 NEW FORMULAS ADDITION
+  
   // Advanced Mechanical Engineering Formulas
   {
     id: 'hertz-contact-stress',
@@ -2042,14 +2041,7 @@ export const newFormulas = [
   }
 ];
 
-// Combine original formulas with new formulas
-export const allFormulas = [...formulas, ...newFormulas];
-
-export const disciplines = ['All', 'Mechanical', 'Electrical', 'Civil', 'Chemical', 'Materials Science', 'Interdisciplinary'];
-
-export const categories = [
-  'All', 
-  'Material Properties', 
+export const disciplines = ['All', 'Mechanical', 'Electrical', 'Civil', 'Chemical', 'Materials Science', 'Interdisciplinary']; 
   'Power & Energy', 
   'Basic Laws', 
   'AC Analysis', 
@@ -2078,22 +2070,6 @@ export const categories = [
   'Mass Transfer',
   'Thermal Radiation',
   'Semiconductor Physics',
-  'Classical Physics',
-  'Contact Mechanics',
-  'Machine Design',
-  'Vibration Analysis',
-  'High Frequency',
-  'Transmission Lines',
-  'Motor Control',
-  'Power Systems',
-  'Antennas',
-  'Foundation Engineering',
-  'Concrete Design',
-  'Transportation',
-  'Reaction Engineering',
-  'Crystallography',
-  'Microstructure',
-  'Mechanical Properties',
-  'Mathematical Analysis'
+  'Classical Physics'
 ];
 export const difficulties = ['All', 'Basic', 'Intermediate', 'Advanced'];

@@ -21,9 +21,10 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 import Documentation from './components/Documentation';
 import AuthModal from './components/AuthModal';
+import UserProfile from './components/UserProfile';
 import { Formula, Calculation } from './types/formula';
-import { formulas, disciplines, categories, difficulties } from './data/formulas';
-import { Search, Zap, ArrowRightLeft, Code, BarChart3, BookOpen, Settings, Share2 } from 'lucide-react';
+import { formulas, allFormulas, disciplines, categories, difficulties } from './data/formulas';
+import { Search, Zap, ArrowRightLeft, Code, BarChart3, BookOpen, Settings, Share2, User, LogIn } from 'lucide-react';
 // @ts-ignore
 import userDB from './data/user.js';
 // @ts-ignore
@@ -54,6 +55,7 @@ function AppContent() {
   // Authentication states
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showUserProfile, setShowUserProfile] = useState(false);
   const [isFirstVisit, setIsFirstVisit] = useState(true);
 
   // Check for existing user on app load
@@ -97,10 +99,10 @@ function AppContent() {
   };
 
   // Combine built-in and custom formulas
-  const allFormulas = [...formulas, ...customFormulas];
+  const combinedFormulas = [...allFormulas, ...customFormulas];
 
   const filteredFormulas = useMemo(() => {
-    return allFormulas.filter(formula => {
+    return combinedFormulas.filter(formula => {
       const matchesSearch = formula.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            formula.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            formula.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -253,6 +255,7 @@ function AppContent() {
           currentUser={currentUser}
           onShowAuth={() => setShowAuthModal(true)}
           onSignOut={handleSignOut}
+          onShowProfile={() => setShowUserProfile(true)}
         />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -315,34 +318,57 @@ function AppContent() {
         {/* Content based on current view */}
         {currentView === 'formulas' && (
           <>
-            <FilterBar
-              searchTerm={searchTerm}
-              selectedDiscipline={selectedDiscipline}
-              selectedCategory={selectedCategory}
-              selectedDifficulty={selectedDifficulty}
-              disciplines={disciplines}
-              categories={categories}
-              difficulties={difficulties}
-              showFavoritesOnly={showFavoritesOnly}
-              onSearchChange={setSearchTerm}
-              onDisciplineChange={setSelectedDiscipline}
-              onCategoryChange={setSelectedCategory}
-              onDifficultyChange={setSelectedDifficulty}
-              onToggleFavorites={() => setShowFavoritesOnly(!showFavoritesOnly)}
-              totalFormulas={allFormulas.length}
-              filteredCount={filteredFormulas.length}
-            />
+            {!currentUser ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="text-center py-16 glass-card rounded-2xl"
+              >
+                <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-full p-6 w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+                  <User className="h-12 w-12 text-white" />
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-4">Sign In Required</h2>
+                <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+                  Access to professional engineering formulas requires a user account. Please sign in or create an account to continue.
+                </p>
+                <button
+                  onClick={() => setShowAuthModal(true)}
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 hover:scale-105 shadow-lg flex items-center space-x-2 mx-auto"
+                >
+                  <LogIn className="h-5 w-5" />
+                  <span>Sign In to Access Formulas</span>
+                </button>
+              </motion.div>
+            ) : (
+              <>
+                <FilterBar
+                  searchTerm={searchTerm}
+                  selectedDiscipline={selectedDiscipline}
+                  selectedCategory={selectedCategory}
+                  selectedDifficulty={selectedDifficulty}
+                  disciplines={disciplines}
+                  categories={categories}
+                  difficulties={difficulties}
+                  showFavoritesOnly={showFavoritesOnly}
+                  onSearchChange={setSearchTerm}
+                  onDisciplineChange={setSelectedDiscipline}
+                  onCategoryChange={setSelectedCategory}
+                  onDifficultyChange={setSelectedDifficulty}
+                  onToggleFavorites={() => setShowFavoritesOnly(!showFavoritesOnly)}
+                  totalFormulas={combinedFormulas.length}
+                  filteredCount={filteredFormulas.length}
+                />
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="mb-8"
-            >
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="mb-8"
+                >
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-gray-900">
                   Engineering Formulas
                   <span className="ml-2 text-lg font-normal text-gray-600">
-                    ({filteredFormulas.length} of {allFormulas.length})
+                    ({filteredFormulas.length} of {combinedFormulas.length})
                   </span>
                 </h2>
               </div>
@@ -399,6 +425,8 @@ function AppContent() {
                 </motion.div>
               )}
             </motion.div>
+              </>
+            )}
           </>
         )}
 
@@ -422,7 +450,7 @@ function AppContent() {
           >
             <StatsPanel
               calculations={calculations}
-              totalFormulas={allFormulas.length}
+              totalFormulas={combinedFormulas.length}
             />
           </motion.div>
         )}
@@ -562,6 +590,14 @@ function AppContent() {
             isOpen={showAuthModal}
             onClose={() => setShowAuthModal(false)}
             onAuthSuccess={handleAuthSuccess}
+          />
+        )}
+        {showUserProfile && (
+          <UserProfile
+            isOpen={showUserProfile}
+            onClose={() => setShowUserProfile(false)}
+            currentUser={currentUser}
+            onUserUpdate={setCurrentUser}
           />
         )}
       </AnimatePresence>

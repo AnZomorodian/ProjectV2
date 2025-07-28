@@ -119,6 +119,21 @@ class UserDatabase {
     return { success: true, user: this.currentUser };
   }
 
+  // Get user statistics
+  getUserStats() {
+    if (!this.currentUser) return null;
+    
+    const userCalculations = JSON.parse(localStorage.getItem(`user_calculations_${this.currentUser.id}`) || '[]');
+    const favoriteFormulas = this.currentUser.profile?.favoriteFormulas?.length || 0;
+    
+    return {
+      totalCalculations: userCalculations.length,
+      favoriteFormulas: favoriteFormulas,
+      memberSince: this.currentUser.createdAt,
+      lastLogin: this.currentUser.lastLogin
+    };
+  }
+
   // Add calculation to history
   addCalculation(calculation) {
     if (!this.currentUser) return;

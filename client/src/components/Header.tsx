@@ -6,9 +6,10 @@ interface HeaderProps {
   currentUser?: any;
   onShowAuth?: () => void;
   onSignOut?: () => void;
+  onShowProfile?: () => void;
 }
 
-export default function Header({ onLogoClick, currentUser, onShowAuth, onSignOut }: HeaderProps) {
+export default function Header({ onLogoClick, currentUser, onShowAuth, onSignOut, onShowProfile }: HeaderProps) {
   return (
     <header className="bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 text-white shadow-2xl relative overflow-hidden">
       {/* Enhanced Background Pattern */}
@@ -72,7 +73,10 @@ export default function Header({ onLogoClick, currentUser, onShowAuth, onSignOut
             {/* User authentication section */}
             {currentUser ? (
               <div className="flex items-center space-x-3">
-                <div className="flex items-center space-x-3 glass-effect dark-glass-effect px-4 py-2 rounded-xl backdrop-blur-md border border-white/20">
+                <button
+                  onClick={onShowProfile}
+                  className="flex items-center space-x-3 glass-effect dark-glass-effect px-4 py-2 rounded-xl backdrop-blur-md border border-white/20 hover:bg-white/10 transition-all duration-200 hover:scale-105"
+                >
                   <div className="bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full p-2">
                     <User className="h-4 w-4 text-white" />
                   </div>
@@ -80,7 +84,7 @@ export default function Header({ onLogoClick, currentUser, onShowAuth, onSignOut
                     <div className="text-white font-semibold text-sm">{currentUser.username}</div>
                     <div className="text-cyan-200 text-xs">{currentUser.email}</div>
                   </div>
-                </div>
+                </button>
                 <button
                   onClick={onSignOut}
                   className="flex items-center space-x-2 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 px-4 py-2 rounded-xl text-white font-semibold transition-all duration-200 hover:scale-105 shadow-lg"
