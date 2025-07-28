@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useMemo, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Toaster } from 'react-hot-toast';
 import { SettingsProvider, useSettings } from './context/SettingsContext';
 import Header from './components/Header';
@@ -20,9 +20,14 @@ import QuickReference from './components/QuickReference';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 import Documentation from './components/Documentation';
+import AuthModal from './components/AuthModal';
 import { Formula, Calculation } from './types/formula';
 import { formulas, disciplines, categories, difficulties } from './data/formulas';
 import { Search, Zap, ArrowRightLeft, Code, BarChart3, BookOpen, Settings, Share2 } from 'lucide-react';
+// @ts-ignore
+import userDB from './data/user.js';
+// @ts-ignore
+import totalDB from './data/total.js';
 
 function AppContent() {
   const { settings } = useSettings();
@@ -45,6 +50,51 @@ function AppContent() {
   const [showTermsOfService, setShowTermsOfService] = useState(false);
   const [showDocumentation, setShowDocumentation] = useState(false);
   const [calculationToShare, setCalculationToShare] = useState<Calculation | null>(null);
+  
+  // Authentication states
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [isFirstVisit, setIsFirstVisit] = useState(true);
+
+  // Check for existing user on app load
+  useEffect(() => {
+    const existingUser = userDB.getCurrentUser();
+    if (existingUser) {
+      setCurrentUser(existingUser);
+      setIsFirstVisit(false);
+      // Load user's favorites and calculations
+      const userStats = userDB.getUserStats();
+      if (userStats && existingUser.profile?.favoriteFormulas) {
+        setFavorites(new Set(existingUser.profile.favoriteFormulas));
+      }
+    } else {
+      // Show auth modal for first-time visitors
+      const hasVisitedBefore = localStorage.getItem('solvix_has_visited');
+      if (!hasVisitedBefore) {
+        setShowAuthModal(true);
+        localStorage.setItem('solvix_has_visited', 'true');
+      } else {
+        setIsFirstVisit(false);
+      }
+    }
+  }, []);
+
+  // Authentication handlers
+  const handleAuthSuccess = (user: any) => {
+    setCurrentUser(user);
+    setIsFirstVisit(false);
+    if (user.profile?.favoriteFormulas) {
+      setFavorites(new Set(user.profile.favoriteFormulas));
+    }
+  };
+
+  const handleSignOut = () => {
+    userDB.signOut();
+    setCurrentUser(null);
+    setFavorites(new Set());
+    setCalculations([]);
+    totalDB.recordUserActivity(currentUser?.id, 'signout');
+  };
 
   // Combine built-in and custom formulas
   const allFormulas = [...formulas, ...customFormulas];
@@ -74,6 +124,14 @@ function AppContent() {
       timestamp: new Date()
     };
     setCalculations(prev => [newCalculation, ...prev]);
+    
+    // Save to user database if logged in
+    if (currentUser) {
+      userDB.addCalculation(newCalculation);
+      totalDB.recordCalculation(calculation.formulaId, calculation.formulaName, currentUser.id);
+    } else {
+      totalDB.recordCalculation(calculation.formulaId, calculation.formulaName);
+    }
   };
 
   const handleToggleFavorite = (formulaId: string) => {
@@ -84,6 +142,12 @@ function AppContent() {
       } else {
         newFavorites.add(formulaId);
       }
+      
+      // Save to user database if logged in
+      if (currentUser) {
+        userDB.toggleFavoriteFormula(formulaId);
+      }
+      
       return newFavorites;
     });
   };
@@ -172,19 +236,24 @@ function AppContent() {
         }}
       />
       <div className="relative z-10">
-        <Header onLogoClick={() => {
-          // Close all modals when logo is clicked
-          setShowHelpModal(false);
-          setShowSettingsModal(false);
-          setShowShareModal(false);
-          setShowFormulaGuide(false);
-          setShowQuickReference(false);
-          setShowPrivacyPolicy(false);
-          setShowTermsOfService(false);
-          setShowDocumentation(false);
-          // Return to formulas view
-          setCurrentView('formulas');
-        }} />
+        <Header 
+          onLogoClick={() => {
+            // Close all modals when logo is clicked
+            setShowHelpModal(false);
+            setShowSettingsModal(false);
+            setShowShareModal(false);
+            setShowFormulaGuide(false);
+            setShowQuickReference(false);
+            setShowPrivacyPolicy(false);
+            setShowTermsOfService(false);
+            setShowDocumentation(false);
+            // Return to formulas view
+            setCurrentView('formulas');
+          }}
+          currentUser={currentUser}
+          onShowAuth={() => setShowAuthModal(true)}
+          onSignOut={handleSignOut}
+        />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Enhanced Navigation Tabs */}
@@ -486,6 +555,16 @@ function AppContent() {
           </div>
         </div>
       )}
+
+      <AnimatePresence>
+        {showAuthModal && (
+          <AuthModal
+            isOpen={showAuthModal}
+            onClose={() => setShowAuthModal(false)}
+            onAuthSuccess={handleAuthSuccess}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

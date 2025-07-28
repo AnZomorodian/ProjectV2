@@ -1,11 +1,14 @@
 import React from 'react';
-import { Calculator, Zap, Wrench, Award, TrendingUp, Sparkles, Shield, Gauge } from 'lucide-react';
+import { Calculator, Zap, Wrench, Award, TrendingUp, Sparkles, Shield, Gauge, User, LogOut, LogIn } from 'lucide-react';
 
 interface HeaderProps {
   onLogoClick?: () => void;
+  currentUser?: any;
+  onShowAuth?: () => void;
+  onSignOut?: () => void;
 }
 
-export default function Header({ onLogoClick }: HeaderProps) {
+export default function Header({ onLogoClick, currentUser, onShowAuth, onSignOut }: HeaderProps) {
   return (
     <header className="bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 text-white shadow-2xl relative overflow-hidden">
       {/* Enhanced Background Pattern */}
@@ -53,19 +56,48 @@ export default function Header({ onLogoClick }: HeaderProps) {
             </div>
           </div>
           
-          <div className="hidden lg:flex items-center space-x-4 text-sm">
-            <div className="flex items-center space-x-2 glass-effect dark-glass-effect px-5 py-3 rounded-xl backdrop-blur-md border border-white/20 hover:border-white/30 transition-all duration-200">
-              <Shield className="h-5 w-5 text-emerald-400" />
-              <span className="font-semibold text-white">Professional Grade</span>
+          <div className="flex items-center space-x-4">
+            {/* Professional badges (hidden on smaller screens) */}
+            <div className="hidden xl:flex items-center space-x-4 text-sm">
+              <div className="flex items-center space-x-2 glass-effect dark-glass-effect px-4 py-2 rounded-xl backdrop-blur-md border border-white/20 hover:border-white/30 transition-all duration-200">
+                <Shield className="h-4 w-4 text-emerald-400" />
+                <span className="font-semibold text-white">Professional</span>
+              </div>
+              <div className="flex items-center space-x-2 glass-effect dark-glass-effect px-4 py-2 rounded-xl backdrop-blur-md border border-white/20 hover:border-white/30 transition-all duration-200">
+                <Wrench className="h-4 w-4 text-blue-400" />
+                <span className="font-semibold text-white">Multi-Discipline</span>
+              </div>
             </div>
-            <div className="flex items-center space-x-2 glass-effect dark-glass-effect px-5 py-3 rounded-xl backdrop-blur-md border border-white/20 hover:border-white/30 transition-all duration-200">
-              <Wrench className="h-5 w-5 text-blue-400" />
-              <span className="font-semibold text-white">Multi-Discipline</span>
-            </div>
-            <div className="flex items-center space-x-2 glass-effect dark-glass-effect px-5 py-3 rounded-xl backdrop-blur-md border border-white/20 hover:border-white/30 transition-all duration-200">
-              <Gauge className="h-5 w-5 text-green-400" />
-              <span className="font-semibold text-white">Real-time Analysis</span>
-            </div>
+
+            {/* User authentication section */}
+            {currentUser ? (
+              <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-3 glass-effect dark-glass-effect px-4 py-2 rounded-xl backdrop-blur-md border border-white/20">
+                  <div className="bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full p-2">
+                    <User className="h-4 w-4 text-white" />
+                  </div>
+                  <div className="hidden sm:block">
+                    <div className="text-white font-semibold text-sm">{currentUser.username}</div>
+                    <div className="text-cyan-200 text-xs">{currentUser.email}</div>
+                  </div>
+                </div>
+                <button
+                  onClick={onSignOut}
+                  className="flex items-center space-x-2 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 px-4 py-2 rounded-xl text-white font-semibold transition-all duration-200 hover:scale-105 shadow-lg"
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span className="hidden sm:inline">Sign Out</span>
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={onShowAuth}
+                className="flex items-center space-x-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 px-4 py-2 rounded-xl text-white font-semibold transition-all duration-200 hover:scale-105 shadow-lg"
+              >
+                <LogIn className="h-4 w-4" />
+                <span>Sign In</span>
+              </button>
+            )}
           </div>
           
           {/* Mobile indicators */}
