@@ -48,7 +48,7 @@ export default function Footer({ onShowPrivacyPolicy, onShowTermsOfService, onSh
             </p>
             <div className="flex items-center space-x-2 text-sm text-blue-300">
               <Code className="h-4 w-4" />
-              <span>Built with modern web technologies</span>
+              <span>Built With Nothing</span>
             </div>
           </div>
 
@@ -61,7 +61,6 @@ export default function Footer({ onShowPrivacyPolicy, onShowTermsOfService, onSh
               className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20"
             >
               <div className="flex items-center justify-center space-x-2 mb-2">
-                <Heart className="h-5 w-5 text-red-400 animate-pulse" />
                 <span className="text-lg font-semibold">Powered By</span>
               </div>
               <div className="text-2xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">

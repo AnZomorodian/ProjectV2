@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { BookOpen, Search, Star, TrendingUp, Clock, Filter, X, ChevronRight, FileText, Calculator, Lightbulb } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { BookOpen, Search, Star, TrendingUp, Clock, Filter, X, ChevronRight, FileText, Calculator, Lightbulb, Bookmark, Brain, Zap, Target, ArrowRight, Award, ChevronDown } from 'lucide-react';
 import { Formula } from '../types/formula';
 import { formulas, disciplines } from '../data/formulas';
 
@@ -205,22 +205,51 @@ export default function FormulaGuide({ onClose, onSelectFormula }: FormulaGuideP
                     </h3>
                     <div className="space-y-4">
                       {selectedFormula.examples.map((example, index) => (
-                        <div key={index} className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                          <h4 className="font-semibold text-gray-900 mb-2">{example.title}</h4>
-                          <p className="text-sm text-gray-700 mb-3">{example.description}</p>
-                          <div className="grid grid-cols-2 gap-4 text-sm">
-                            <div>
-                              <div className="font-medium text-gray-700 mb-1">Inputs:</div>
-                              {Object.entries(example.inputs).map(([key, value]) => (
-                                <div key={key} className="text-gray-600">{key} = {value}</div>
-                              ))}
-                            </div>
-                            <div>
-                              <div className="font-medium text-gray-700 mb-1">Expected Result:</div>
-                              <div className="text-gray-600 font-mono">{example.expectedResult}</div>
+                        <motion.div 
+                          key={index} 
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          className="bg-gradient-to-r from-yellow-50 to-amber-50 border border-yellow-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300"
+                        >
+                          <div className="flex items-start justify-between mb-3">
+                            <h4 className="font-bold text-gray-900 text-lg">{example.title}</h4>
+                            <div className="bg-yellow-200 text-yellow-800 px-3 py-1 rounded-full text-xs font-medium">
+                              Example {index + 1}
                             </div>
                           </div>
-                        </div>
+                          <p className="text-gray-700 mb-4 leading-relaxed">{example.description}</p>
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div className="bg-white rounded-lg p-4 border border-yellow-200">
+                              <div className="flex items-center mb-3">
+                                <Target className="h-4 w-4 text-blue-600 mr-2" />
+                                <span className="font-semibold text-gray-800">Input Values</span>
+                              </div>
+                              <div className="space-y-2">
+                                {Object.entries(example.inputs).map(([key, value]) => (
+                                  <div key={key} className="flex justify-between items-center py-1">
+                                    <span className="font-mono text-blue-600 font-medium">{key}</span>
+                                    <span className="text-gray-800 font-medium">{value}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                            <div className="bg-white rounded-lg p-4 border border-green-200">
+                              <div className="flex items-center mb-3">
+                                <Award className="h-4 w-4 text-green-600 mr-2" />
+                                <span className="font-semibold text-gray-800">Expected Result</span>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-2xl font-mono font-bold text-green-600 bg-green-50 rounded-lg py-3 px-4">
+                                  {example.expectedResult}
+                                </div>
+                                <div className="text-sm text-gray-600 mt-2">
+                                  {selectedFormula.units}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </motion.div>
                       ))}
                     </div>
                   </div>

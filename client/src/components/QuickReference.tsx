@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Zap, Search, Copy, Check, X, Calculator, Ruler, Globe, Thermometer, Clock, ChevronDown, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Zap, Search, Copy, Check, X, Calculator, Ruler, Globe, Thermometer, Clock, ChevronDown, ChevronRight, BookOpen, Star, TrendingUp, Target, Award, Bookmark, Lightbulb } from 'lucide-react';
 
 interface QuickReferenceProps {
   onClose: () => void;
@@ -118,10 +118,10 @@ export default function QuickReference({ onClose }: QuickReferenceProps) {
   );
 
   const sections = [
-    { id: 'formulas', label: 'Quick Formulas', icon: Calculator },
-    { id: 'units', label: 'Unit Conversions', icon: Ruler },
-    { id: 'constants', label: 'Physical Constants', icon: Globe },
-    { id: 'math', label: 'Mathematical Formulas', icon: Thermometer }
+    { id: 'formulas', label: 'Quick Formulas', icon: Calculator, count: quickFormulas.length },
+    { id: 'units', label: 'Unit Conversions', icon: Ruler, count: Object.keys(unitConversions).length },
+    { id: 'constants', label: 'Physical Constants', icon: Globe, count: constants.length },
+    { id: 'math', label: 'Mathematical Formulas', icon: Thermometer, count: mathematicalFormulas.length }
   ];
 
   return (
@@ -165,50 +165,109 @@ export default function QuickReference({ onClose }: QuickReferenceProps) {
 
           <nav className="p-4 space-y-2">
             {sections.map(section => (
-              <button
+              <motion.button
                 key={section.id}
                 onClick={() => setExpandedSection(section.id)}
-                className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 ${
                   expandedSection === section.id 
-                    ? 'bg-purple-100 text-purple-700' 
-                    : 'text-gray-600 hover:bg-gray-100'
+                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg' 
+                    : 'text-gray-600 hover:bg-white hover:shadow-md border border-gray-200'
                 }`}
               >
-                <section.icon className="h-4 w-4" />
-                <span className="text-sm font-medium">{section.label}</span>
-              </button>
+                <div className="flex items-center space-x-3">
+                  <section.icon className={`h-5 w-5 ${
+                    expandedSection === section.id ? 'text-white' : 'text-purple-600'
+                  }`} />
+                  <span className="font-semibold">{section.label}</span>
+                </div>
+                <div className={`px-2 py-1 rounded-full text-xs font-bold ${
+                  expandedSection === section.id 
+                    ? 'bg-white/20 text-white' 
+                    : 'bg-purple-100 text-purple-600'
+                }`}>
+                  {section.count}
+                </div>
+              </motion.button>
             ))}
           </nav>
+
+          {/* Enhanced Quick Access */}
+          <div className="p-4 mt-6">
+            <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-4 border border-purple-200">
+              <h3 className="font-bold text-gray-800 text-sm mb-3 flex items-center">
+                <Star className="h-4 w-4 mr-2 text-purple-600" />
+                Most Used
+              </h3>
+              <div className="space-y-2">
+                {['π = 3.14159', 'g = 9.806 m/s²', 'c = 299,792,458 m/s'].map((item, idx) => (
+                  <motion.div 
+                    key={idx}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: idx * 0.1 }}
+                    className="text-xs bg-white rounded-lg p-2 text-gray-700 font-mono border border-purple-100"
+                  >
+                    {item}
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Main Content */}
         <div className="flex-1 overflow-y-auto p-6">
           {expandedSection === 'formulas' && (
             <div className="space-y-6">
-              <h3 className="text-2xl font-bold text-gray-900">Quick Formulas</h3>
+              <motion.div 
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-6 text-white"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-3xl font-bold mb-2">Quick Formulas</h3>
+                    <p className="text-blue-100">Essential formulas for everyday calculations</p>
+                  </div>
+                  <Calculator className="h-12 w-12 text-white/60" />
+                </div>
+              </motion.div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {filteredFormulas.map((formula, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                    transition={{ delay: index * 0.05 }}
+                    className="group bg-white border border-gray-200 rounded-xl p-6 hover:shadow-xl hover:border-purple-300 transition-all duration-300 hover:-translate-y-1"
                   >
-                    <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-semibold text-gray-900">{formula.name}</h4>
-                      <button
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center space-x-3">
+                        <div className="bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg p-2">
+                          <Calculator className="h-4 w-4 text-white" />
+                        </div>
+                        <h4 className="font-bold text-gray-900 group-hover:text-purple-600 transition-colors">{formula.name}</h4>
+                      </div>
+                      <motion.button
                         onClick={() => handleCopy(formula.formula, `formula-${index}`)}
-                        className="text-gray-400 hover:text-gray-600"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="p-2 rounded-lg text-gray-400 hover:text-purple-600 hover:bg-purple-50 transition-all"
                       >
                         {copied === `formula-${index}` ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
-                      </button>
+                      </motion.button>
                     </div>
-                    <div className="font-mono text-lg bg-gray-50 p-2 rounded mb-2">
-                      {formula.formula}
+                    <div className="bg-gradient-to-r from-gray-50 to-purple-50 rounded-lg p-4 mb-4 border border-gray-200">
+                      <div className="font-mono text-lg text-center text-gray-800 font-semibold">
+                        {formula.formula}
+                      </div>
                     </div>
-                    <div className="text-xs text-gray-600">{formula.vars}</div>
+                    <div className="text-sm text-gray-600 bg-blue-50 rounded-lg p-3">
+                      <span className="font-medium text-blue-800">Variables:</span> {formula.vars}
+                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -217,63 +276,119 @@ export default function QuickReference({ onClose }: QuickReferenceProps) {
 
           {expandedSection === 'units' && (
             <div className="space-y-6">
-              <h3 className="text-2xl font-bold text-gray-900">Unit Conversions</h3>
+              <motion.div 
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-gradient-to-r from-orange-600 to-red-600 rounded-2xl p-6 text-white"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-3xl font-bold mb-2">Unit Conversions</h3>
+                    <p className="text-orange-100">Convert between measurement units instantly</p>
+                  </div>
+                  <Ruler className="h-12 w-12 text-white/60" />
+                </div>
+              </motion.div>
               
-              {Object.entries(unitConversions).map(([category, conversions]) => (
-                <div key={category} className="space-y-3">
-                  <h4 className="text-lg font-semibold capitalize text-gray-800 border-b border-gray-200 pb-2">
-                    {category}
-                  </h4>
-                  <div className="grid grid-cols-1 gap-3">
+              {Object.entries(unitConversions).map(([category, conversions], categoryIndex) => (
+                <motion.div 
+                  key={category} 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: categoryIndex * 0.1 }}
+                  className="space-y-4"
+                >
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-lg p-2">
+                      <Ruler className="h-5 w-5 text-white" />
+                    </div>
+                    <h4 className="text-xl font-bold capitalize text-gray-800">{category}</h4>
+                    <div className="flex-1 h-px bg-gradient-to-r from-orange-200 to-transparent"></div>
+                  </div>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     {conversions.map((conversion, index) => (
-                      <div key={index} className="bg-gray-50 rounded-lg p-3 flex items-center justify-between">
-                        <div>
-                          <div className="font-medium text-gray-900">{conversion.from}</div>
-                          <div className="text-sm text-gray-600">{conversion.to}</div>
+                      <motion.div 
+                        key={index} 
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: (categoryIndex * 0.1) + (index * 0.05) }}
+                        className="group bg-white border border-gray-200 rounded-xl p-4 hover:shadow-lg hover:border-orange-300 transition-all duration-300"
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center space-x-2 mb-2">
+                              <Target className="h-4 w-4 text-orange-600" />
+                              <div className="font-bold text-gray-900">{conversion.from}</div>
+                            </div>
+                            <div className="text-sm text-gray-600 bg-orange-50 rounded-lg p-2 font-mono">
+                              {conversion.to}
+                            </div>
+                          </div>
+                          <motion.button
+                            onClick={() => handleCopy(`${conversion.from} = ${conversion.to}`, `unit-${category}-${index}`)}
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            className="ml-4 p-2 rounded-lg text-gray-400 hover:text-orange-600 hover:bg-orange-50 transition-all"
+                          >
+                            {copied === `unit-${category}-${index}` ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
+                          </motion.button>
                         </div>
-                        <button
-                          onClick={() => handleCopy(`${conversion.from} = ${conversion.to}`, `unit-${category}-${index}`)}
-                          className="text-gray-400 hover:text-gray-600"
-                        >
-                          {copied === `unit-${category}-${index}` ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
-                        </button>
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           )}
 
           {expandedSection === 'constants' && (
             <div className="space-y-6">
-              <h3 className="text-2xl font-bold text-gray-900">Physical Constants</h3>
+              <motion.div 
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-gradient-to-r from-green-600 to-teal-600 rounded-2xl p-6 text-white"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-3xl font-bold mb-2">Physical Constants</h3>
+                    <p className="text-green-100">Fundamental constants of nature</p>
+                  </div>
+                  <Globe className="h-12 w-12 text-white/60" />
+                </div>
+              </motion.div>
               
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {constants.map((constant, index) => (
                   <motion.div
                     key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="bg-white border border-gray-200 rounded-lg p-4"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: index * 0.05 }}
+                    className="group bg-white border border-gray-200 rounded-xl p-6 hover:shadow-xl hover:border-green-300 transition-all duration-300 hover:-translate-y-1"
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center space-x-3 mb-2">
-                          <h4 className="font-semibold text-gray-900">{constant.name}</h4>
-                          <span className="font-mono text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                            {constant.value}
-                          </span>
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center space-x-3">
+                        <div className="bg-gradient-to-br from-green-500 to-teal-500 rounded-lg p-2">
+                          <Globe className="h-4 w-4 text-white" />
                         </div>
-                        <p className="text-sm text-gray-600">{constant.description}</p>
+                        <h4 className="font-bold text-gray-900 group-hover:text-green-600 transition-colors">{constant.name}</h4>
                       </div>
-                      <button
+                      <motion.button
                         onClick={() => handleCopy(constant.value, `constant-${index}`)}
-                        className="ml-4 text-gray-400 hover:text-gray-600"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="p-2 rounded-lg text-gray-400 hover:text-green-600 hover:bg-green-50 transition-all"
                       >
                         {copied === `constant-${index}` ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
-                      </button>
+                      </motion.button>
+                    </div>
+                    <div className="bg-gradient-to-r from-green-50 to-teal-50 rounded-lg p-4 mb-4 border border-green-200">
+                      <div className="font-mono text-lg text-center text-gray-800 font-bold">
+                        {constant.value}
+                      </div>
+                    </div>
+                    <div className="text-sm text-gray-600 bg-green-50 rounded-lg p-3">
+                      {constant.description}
                     </div>
                   </motion.div>
                 ))}
@@ -283,27 +398,66 @@ export default function QuickReference({ onClose }: QuickReferenceProps) {
 
           {expandedSection === 'math' && (
             <div className="space-y-6">
-              <h3 className="text-2xl font-bold text-gray-900">Mathematical Formulas</h3>
+              <motion.div 
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-6 text-white"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-3xl font-bold mb-2">Mathematical Formulas</h3>
+                    <p className="text-indigo-100">Essential math equations and theorems</p>
+                  </div>
+                  <Thermometer className="h-12 w-12 text-white/60" />
+                </div>
+              </motion.div>
               
               {mathematicalFormulas.map((section, sectionIndex) => (
-                <div key={sectionIndex} className="space-y-3">
-                  <h4 className="text-lg font-semibold text-gray-800 border-b border-gray-200 pb-2">
-                    {section.category}
-                  </h4>
-                  <div className="space-y-2">
+                <motion.div 
+                  key={sectionIndex} 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: sectionIndex * 0.1 }}
+                  className="space-y-4"
+                >
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg p-2">
+                      <Lightbulb className="h-5 w-5 text-white" />
+                    </div>
+                    <h4 className="text-xl font-bold text-gray-800">{section.category}</h4>
+                    <div className="flex-1 h-px bg-gradient-to-r from-indigo-200 to-transparent"></div>
+                  </div>
+                  <div className="grid grid-cols-1 gap-4">
                     {section.formulas.map((formula, index) => (
-                      <div key={index} className="bg-gray-50 rounded-lg p-3 flex items-center justify-between">
-                        <div className="font-mono text-sm">{formula}</div>
-                        <button
-                          onClick={() => handleCopy(formula, `math-${sectionIndex}-${index}`)}
-                          className="text-gray-400 hover:text-gray-600"
-                        >
-                          {copied === `math-${sectionIndex}-${index}` ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
-                        </button>
-                      </div>
+                      <motion.div 
+                        key={index} 
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: (sectionIndex * 0.1) + (index * 0.05) }}
+                        className="group bg-white border border-gray-200 rounded-xl p-4 hover:shadow-lg hover:border-indigo-300 transition-all duration-300"
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-3 flex-1">
+                            <div className="bg-gradient-to-br from-indigo-500 to-purple-500 rounded-lg p-2">
+                              <BookOpen className="h-4 w-4 text-white" />
+                            </div>
+                            <div className="font-mono text-gray-800 bg-indigo-50 rounded-lg p-3 flex-1 text-center font-medium">
+                              {formula}
+                            </div>
+                          </div>
+                          <motion.button
+                            onClick={() => handleCopy(formula, `math-${sectionIndex}-${index}`)}
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            className="ml-4 p-2 rounded-lg text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all"
+                          >
+                            {copied === `math-${sectionIndex}-${index}` ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
+                          </motion.button>
+                        </div>
+                      </motion.div>
                     ))}
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           )}
