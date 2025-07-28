@@ -191,6 +191,42 @@ export class EngineeringCalculator {
           steps.push(`hf = ${this.formatNumber(context.f)} × (${this.formatNumber(context.L)}/${this.formatNumber(context.D)}) × (${this.formatNumber(context.v)}²/(2×${this.formatNumber(context.g)}))`);
           break;
 
+        case 'mohr-circle-analysis':
+          // Calculate principal stresses using Mohr circle analysis
+          const σx = context.σₓ || context['σx'] || 0;
+          const σy = context.σᵧ || context['σy'] || 0;
+          const τxy = context.τₘᵧ || context['τxy'] || 0;
+          
+          const σavg = (σx + σy) / 2;
+          const mohrRadius = Math.sqrt(Math.pow((σx - σy) / 2, 2) + Math.pow(τxy, 2));
+          const σ1 = σavg + mohrRadius; // Maximum principal stress
+          const σ2 = σavg - mohrRadius; // Minimum principal stress
+          
+          result = σ1; // Return maximum principal stress
+          
+          steps.push(`Mohr Circle Analysis:`);
+          steps.push(`σₓ = ${this.formatNumber(σx)} Pa, σᵧ = ${this.formatNumber(σy)} Pa, τₓᵧ = ${this.formatNumber(τxy)} Pa`);
+          steps.push(`Average stress: σₐᵥₐ = (σₓ + σᵧ)/2 = ${this.formatNumber(σavg)} Pa`);
+          steps.push(`Radius: R = √[((σₓ - σᵧ)/2)² + τₓᵧ²] = ${this.formatNumber(mohrRadius)} Pa`);
+          steps.push(`σ₁ = σₐᵥₐ + R = ${this.formatNumber(σavg)} + ${this.formatNumber(mohrRadius)} = ${this.formatNumber(σ1)} Pa`);
+          steps.push(`σ₂ = σₐᵥₐ - R = ${this.formatNumber(σavg)} - ${this.formatNumber(mohrRadius)} = ${this.formatNumber(σ2)} Pa`);
+          break;
+
+        case 'mohr-circle-stress':
+          // Alternative implementation for mohr-circle-stress ID
+          const sigmaX = context.σx || 0;
+          const sigmaY = context.σy || 0;
+          const tauXY = context.τxy || 0;
+          
+          const avgStress = (sigmaX + sigmaY) / 2;
+          const radius = Math.sqrt(Math.pow((sigmaX - sigmaY) / 2, 2) + Math.pow(tauXY, 2));
+          result = avgStress + radius; // Maximum principal stress
+          
+          steps.push(`σ₁ = (σₓ + σᵧ)/2 + √[((σₓ - σᵧ)/2)² + τₓᵧ²]`);
+          steps.push(`σ₁ = (${this.formatNumber(sigmaX)} + ${this.formatNumber(sigmaY)})/2 + √[((${this.formatNumber(sigmaX)} - ${this.formatNumber(sigmaY)})/2)² + ${this.formatNumber(tauXY)}²]`);
+          steps.push(`σ₁ = ${this.formatNumber(avgStress)} + ${this.formatNumber(radius)}`);
+          break;
+
         default:
           // Try to evaluate the formula directly using mathjs
           try {
